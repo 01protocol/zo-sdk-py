@@ -1,4 +1,5 @@
 from typing import *
+import math
 from anchorpy import Program, Context
 from solana.publickey import PublicKey
 from solana.keypair import Keypair
@@ -20,6 +21,12 @@ def decode_wrapped_i80f48(n) -> float:
     return n.data / (2**48)
 
 
+def div_to_float(a: int, b: int) -> float:
+    q, r = divmod(a, b)
+    gcd = math.gcd(r, b)
+    return float(q) + (r // gcd) / (b // gcd)
+
+
 def big_to_small_amount(n: int | float, /, *, decimals: int) -> int:
     shift = 10 ** abs(decimals)
     if decimals >= 0:
@@ -35,7 +42,7 @@ def small_to_big_amount(n: int | float, /, *, decimals: int):
 
 
 def price_to_lots(
-    n: float,
+    n: int | float,
     /,
     *,
     base_decimals: int,
@@ -44,12 +51,32 @@ def price_to_lots(
     quote_lot_size: int,
 ) -> int:
     return round(
-        n * base_lot_size / quote_lot_size * 10 ** (quote_decimals - base_decimals)
+        float(n)
+        * base_lot_size
+        / quote_lot_size
+        * 10 ** (quote_decimals - base_decimals)
     )
+
+
+def lots_to_price(
+    n: int,
+    /,
+    *,
+    base_decimals: int,
+    quote_decimals: int,
+    base_lot_size: int,
+    quote_lot_size: int,
+) -> float:
+    n *= quote_lot_size * 10 ** (base_decimals - quote_decimals)
+    return div_to_float(n, base_lot_size)
 
 
 def size_to_lots(n: float, /, *, decimals: int, lot_size: int) -> int:
     return round(n * 10**decimals) // lot_size
+
+
+def lots_to_size(n: int, /, *, decimals: int, lot_size: int) -> float:
+    return div_to_float(n * lot_size, 10**decimals)
 
 
 def margin_pda(

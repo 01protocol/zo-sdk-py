@@ -17,7 +17,7 @@ from spl.token.constants import TOKEN_PROGRAM_ID
 from . import util, types, config
 from .config import configs, Config
 from .types import Side, OrderType, CollateralInfo, MarketInfo
-from .dex import Market
+from .dex import Market, Orderbook, Order
 
 
 class Zo:
@@ -192,6 +192,23 @@ class Zo:
             mkt = Market.from_base64(res["result"]["value"]["data"][0])
             self._memo_load_dex_market[i] = mkt
         return self._memo_load_dex_market[i]
+
+    async def _load_orderbook(self, key: int | str) -> Orderbook:
+        mkt = await self._load_dex_market(key)
+        infos: Any = await self.connection.get_multiple_accounts([mkt.bids, mkt.asks])
+        infos = infos["result"]["value"]
+        return mkt._decode_orderbook_from_base64(
+            infos[0]["data"][0], infos[1]["data"][0]
+        )
+
+    async def _load_my_orders(self, key: int | str) -> list[Order]:
+        ob = await self._load_orderbook(key)
+        orders: list[Order] = []
+        for slab in [ob.bids, ob.asks]:
+            for o in slab:
+                if o.control == self._zo_margin.control:
+                    orders.append(o)
+        return orders
 
     @property
     def collateral_info(self):
@@ -412,8 +429,6 @@ class Zo:
                     )
                 )
             ]
-
-        print(price, base_qty, quote_qty)
 
         return await self.program.rpc["place_perp_order"](
             is_long,
