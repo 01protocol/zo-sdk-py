@@ -6,7 +6,7 @@ from anchorpy import Idl, Program, Provider, Context, Wallet
 from anchorpy.error import AccountDoesNotExistError
 from solana.publickey import PublicKey
 from solana.keypair import Keypair
-from solana.rpc.commitment import Finalized
+from solana.rpc.commitment import Processed, Finalized
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TxOpts
 from solana.sysvar import SYSVAR_RENT_PUBKEY
@@ -16,13 +16,44 @@ from spl.token.constants import TOKEN_PROGRAM_ID
 
 from . import util, types, config
 from .config import configs, Config
-from .types import Side, OrderType, CollateralInfo, MarketInfo
-from .dex import Market, Orderbook, Order
+from .types import Side, OrderType, CollateralInfo, MarketInfo, PositionInfo
+from .dex import Market, Order
+
+T = TypeVar("T")
+
+
+class ZoIndexer(Generic[T]):
+    def __init__(self, d: dict[str, T], m: Callable[[str | int | PublicKey], str]):
+        self.d = d
+        self.m = m
+
+    def __repr__(self):
+        return self.d.__repr__()
+
+    def __iter__(self):
+        return self.d.items().__iter__()
+
+    def __len__(self):
+        return len(self.d)
+
+    def __getitem__(self, i: str | int | PublicKey) -> T:
+        return self.d[self.m(i)]
 
 
 class Zo:
     __program: Program
     __config: Config
+
+    __markets: dict[str, MarketInfo]
+    __collaterals: dict[str, CollateralInfo]
+    __balance: dict[str, float]
+    __position: dict[str, float]
+
+    __dex_markets: dict[str, Market]
+    __orders: dict[str, list[Order]]
+
+    __markets_map: dict[str | int, str]
+    __collaterals_map: dict[str | int, str]
 
     _zo_state: Any
     _zo_state_signer: PublicKey
@@ -31,8 +62,6 @@ class Zo:
     _zo_margin_key: None | PublicKey
     _zo_control: Any
 
-    _memo_load_dex_market: dict[int, Market] = {}
-
     def __init__(
         self,
         *,
@@ -40,25 +69,21 @@ class Zo:
         _config,
         _state,
         _state_signer,
-        _cache,
         _margin,
         _margin_key,
-        _control,
     ):
         self.__program = _program
         self.__config = _config
         self._zo_state = _state
         self._zo_state_signer = _state_signer
-        self._zo_cache = _cache
         self._zo_margin = _margin
         self._zo_margin_key = _margin_key
-        self._zo_control = _control
 
     @classmethod
     async def new(
         cls,
         *,
-        payer: Keypair,
+        payer: Keypair | None = None,
         cluster: Literal["devnet", "mainnet"],
         url: str | None = None,
         load_margin: bool = True,
@@ -84,7 +109,7 @@ class Zo:
 
         idl = Idl.from_json(raw_idl)
         conn = AsyncClient(url)
-        wallet = Wallet(payer)
+        wallet = Wallet(payer) if payer is not None else Wallet.local()
         provider = Provider(conn, wallet, opts=tx_opts)
         program = Program(idl, config.ZO_PROGRAM_ID, provider=provider)
 
@@ -92,7 +117,6 @@ class Zo:
         state_signer, state_signer_nonce = util.state_signer_pda(
             state=config.ZO_STATE_ID, program_id=config.ZO_PROGRAM_ID
         )
-        cache = await program.account["Cache"].fetch(state.cache)
 
         if state.signer_nonce != state_signer_nonce:
             raise ValueError(
@@ -101,7 +125,6 @@ class Zo:
 
         margin = None
         margin_key = None
-        control = None
 
         if load_margin:
             margin_key, nonce = util.margin_pda(
@@ -111,7 +134,6 @@ class Zo:
             )
             try:
                 margin = await program.account["Margin"].fetch(margin_key)
-                control = await program.account["Control"].fetch(margin.control)
             except AccountDoesNotExistError as e:
                 if not create_margin:
                     raise e
@@ -123,18 +145,17 @@ class Zo:
                     nonce=nonce,
                 )
                 margin = await program.account["Margin"].fetch(margin_key)
-                control = await program.account["Control"].fetch(margin.control)
 
-        return cls(
+        zo = cls(
             _config=config,
             _program=program,
             _state=state,
             _state_signer=state_signer,
-            _cache=cache,
             _margin=margin,
             _margin_key=margin_key,
-            _control=control,
         )
+        await zo.refresh()
+        return zo
 
     @property
     def program(self) -> Program:
@@ -152,148 +173,232 @@ class Zo:
     def wallet(self) -> Wallet:
         return self.provider.wallet
 
-    def _get_collateral_index(self, key: int | str | PublicKey, /) -> int:
-        if isinstance(key, int):
-            if key < self._zo_state.total_collaterals:
-                return int(key)
-        elif isinstance(key, str) and key != "":
+    def _collaterals_map(self, k: str | int | PublicKey) -> str:
+        if isinstance(k, PublicKey):
             for i, c in enumerate(self._zo_state.collaterals):
-                if key == util.decode_symbol(c.oracle_symbol):
-                    return i
-        elif isinstance(key, PublicKey) and key != PublicKey(0):
-            for i, c in enumerate(self._zo_state.collaterals):
-                if key == c.mint:
-                    return i
-        raise LookupError(f"invalid collateral key '{key}'")
+                if c.mint == k:
+                    return self.__collaterals_map[i]
+            raise ValueError("")
+        else:
+            return self.__collaterals_map[k]
 
-    def _get_market_index(self, key: int | str, /) -> int:
-        if isinstance(key, int):
-            if key < self._zo_state.total_markets:
-                return int(key)
-        elif isinstance(key, str) and key != "":
+    def _markets_map(self, k: str | int | PublicKey) -> str:
+        if isinstance(k, PublicKey):
             for i, m in enumerate(self._zo_state.perp_markets):
-                if key == util.decode_symbol(m.symbol):
-                    return i
-        raise LookupError(f"invalid market key '{key}'")
+                if m.dex_market == k:
+                    return self.__markets_map[i]
+            raise ValueError("")
+        else:
+            return self.__markets_map[k]
+
+    @property
+    def collaterals(self):
+        return ZoIndexer(self.__collaterals, lambda k: self._collaterals_map(k))
+
+    @property
+    def markets(self):
+        return ZoIndexer(self.__markets, lambda k: self._markets_map(k))
+
+    @property
+    def balance(self):
+        return ZoIndexer(self.__balance, lambda k: self._collaterals_map(k))
+
+    @property
+    def position(self):
+        return ZoIndexer(self.__position, lambda k: self._markets_map(k))
+
+    @property
+    def orders(self):
+        return ZoIndexer(self.__orders, lambda k: self._markets_map(k))
 
     def _get_open_orders_info(self, key: int | str, /):
-        i = self._get_market_index(key)
-        o = self._zo_control.open_orders_agg[i]
-        if o.key == PublicKey(0):
-            return None
-        else:
-            return o
+        if isinstance(key, str):
+            for k, v in self.__markets_map.items():
+                if v == key and isinstance(k, int):
+                    key = k
+                    break
+            else:
+                ValueError("")
+        o = self._zo_control.open_orders_agg[key]
+        return o if o.key != PublicKey(0) else None
 
-    async def _load_dex_market(self, key: int | str) -> Market:
-        i = self._get_market_index(key)
-        if i not in self._memo_load_dex_market:
-            k = self.market_info[i].dex_market
-            res: Any = await self.connection.get_account_info(k)
-            mkt = Market.from_base64(res["result"]["value"]["data"][0])
-            self._memo_load_dex_market[i] = mkt
-        return self._memo_load_dex_market[i]
+    def __reload_collaterals(self):
+        map = {}
+        collaterals = {}
 
-    async def _load_orderbook(self, key: int | str) -> Orderbook:
-        mkt = await self._load_dex_market(key)
-        infos: Any = await self.connection.get_multiple_accounts([mkt.bids, mkt.asks])
-        infos = infos["result"]["value"]
-        return mkt._decode_orderbook_from_base64(
-            infos[0]["data"][0], infos[1]["data"][0]
-        )
+        for i, c in enumerate(self._zo_state.collaterals):
+            if c.mint == PublicKey(0):
+                break
 
-    async def _load_my_orders(self, key: int | str) -> list[Order]:
-        ob = await self._load_orderbook(key)
-        orders: list[Order] = []
-        for slab in [ob.bids, ob.asks]:
-            for o in slab:
-                if o.control == self._zo_margin.control:
-                    orders.append(o)
-        return orders
+            symbol = util.decode_symbol(c.oracle_symbol)
+            map[symbol] = symbol
+            map[i] = symbol
 
-    @property
-    def collateral_info(self):
-        class Indexer:
-            def __init__(self, inner: Zo):
-                self.inner = inner
+            collaterals[symbol] = CollateralInfo(
+                mint=c.mint,
+                oracle_symbol=symbol,
+                decimals=c.decimals,
+                weight=c.weight,
+                liq_fee=c.liq_fee,
+                is_borrowable=c.is_borrowable,
+                optimal_util=c.optimal_util,
+                optimal_rate=c.optimal_rate,
+                max_rate=c.max_rate,
+                og_fee=c.og_fee,
+                is_swappable=c.is_swappable,
+                serum_open_orders=c.serum_open_orders,
+                max_deposit=c.max_deposit,
+                dust_threshold=c.dust_threshold,
+                vault=self._zo_state.vaults[i],
+            )
 
-            def __len__(self):
-                return self.inner._zo_state.total_collaterals
+        self.__collaterals_map = map
+        self.__collaterals = collaterals
 
-            def __getitem__(self, i: int | str | PublicKey) -> CollateralInfo:
-                i = self.inner._get_collateral_index(i)
-                c = self.inner._zo_state.collaterals[i]
-                v = self.inner._zo_state.vaults[i]
-                d = {
-                    **c.__dict__,
-                    "oracle_symbol": util.decode_symbol(c.oracle_symbol),
-                    "vault": v,
-                }
-                del d["padding"]
-                return CollateralInfo(**d)
+    def __reload_markets(self):
+        map = {}
+        markets = {}
 
-        return Indexer(self)
+        for i, m in enumerate(self._zo_state.perp_markets):
+            if m.dex_market == PublicKey(0):
+                break
 
-    @property
-    def collateral(self):
-        class Indexer:
-            def __init__(self, inner: Zo):
-                self.inner = inner
+            symbol = util.decode_symbol(m.symbol)
+            map[symbol] = symbol
+            map[i] = symbol
 
-            def __len__(self):
-                return self.inner._zo_state.total_collaterals
+            markets[symbol] = MarketInfo(
+                address=m.dex_market,
+                symbol=symbol,
+                oracle_symbol=util.decode_symbol(m.oracle_symbol),
+                perp_type=types.perp_type_to_str(m.perp_type, program=self.program),
+                base_decimals=m.asset_decimals,
+                base_lot_size=m.asset_lot_size,
+                quote_decimals=6,
+                quote_lot_size=m.quote_lot_size,
+                strike=m.strike,
+                base_imf=m.base_imf,
+                liq_fee=m.liq_fee,
+            )
 
-            def __getitem__(self, i: int | str | PublicKey) -> float:
-                i = self.inner._get_collateral_index(i)
-                c = util.decode_wrapped_i80f48(self.inner._zo_margin.collateral[i])
-                m = self.inner._zo_cache.borrow_cache[i]
-                m = m.supply_multiplier if c >= 0 else m.borrow_multiplier
-                c *= util.decode_wrapped_i80f48(m)
-                return util.small_to_big_amount(
-                    c, decimals=self.inner.collateral_info[i].decimals
+        self.__markets_map = map
+        self.__markets = markets
+
+    def __reload_balances(self):
+        if self._zo_margin is None:
+            return
+
+        balances = {}
+        for i, c in enumerate(self._zo_margin.collateral):
+            if i not in self.__collaterals_map:
+                break
+
+            decimals = self.collaterals[i].decimals
+            c = util.decode_wrapped_i80f48(c)
+            m = self._zo_cache.borrow_cache[i]
+            m = m.supply_multiplier if c >= 0 else m.borrow_multiplier
+            m = util.decode_wrapped_i80f48(m)
+
+            balances[self.__collaterals_map[i]] = util.small_to_big_amount(
+                c * m, decimals=decimals
+            )
+
+        self.__balance = balances
+
+    def __reload_positions(self):
+        if self._zo_margin is None:
+            return
+
+        positions = {}
+        for s, m in self.markets:
+            if (oo := self._get_open_orders_info(s)) is not None:
+                positions[s] = PositionInfo(
+                    size=util.small_to_big_amount(
+                        oo.pos_size, decimals=m.base_decimals
+                    ),
+                    value=util.small_to_big_amount(
+                        oo.native_pc_total, decimals=m.quote_decimals
+                    ),
+                    realized_pnl=util.small_to_big_amount(
+                        oo.realized_pnl, decimals=m.base_decimals
+                    ),
+                    funding_index=util.small_to_big_amount(
+                        oo.funding_index, decimals=m.quote_decimals
+                    ),
+                    pos="long" if oo.pos_size >= 0 else "short",
+                )
+            else:
+                positions[s] = PositionInfo(
+                    size=0, value=0, realized_pnl=0, funding_index=1, pos="long"
                 )
 
-        return Indexer(self)
+        self.__position = positions
+        pass
 
-    @property
-    def market_info(self):
-        class Indexer:
-            def __init__(self, inner: Zo):
-                self.inner = inner
-
-            def __len__(self):
-                return self.inner._zo_state.total_markets
-
-            def __getitem__(self, i: int | str) -> MarketInfo:
-                i = self.inner._get_market_index(i)
-                m = self.inner._zo_state.perp_markets[i]
-                d: dict[str, Any] = {
-                    **m.__dict__,
-                    "symbol": util.decode_symbol(m.symbol),
-                    "oracle_symbol": util.decode_symbol(m.oracle_symbol),
-                    "base_decimals": m.asset_decimals,
-                    "base_lot_size": m.asset_lot_size,
-                    "quote_decimals": 6,
-                }
-                del d["padding"]
-                del d["asset_decimals"]
-                del d["asset_lot_size"]
-                return MarketInfo(**d)
-
-        return Indexer(self)
-
-    async def refresh(self):
-        self._memo_load_dex_market = {}
-
-        self._zo_state, self._zo_cache = await asyncio.gather(
-            self.program.account["State"].fetch(self.__config.ZO_STATE_ID),
-            self.program.account["Cache"].fetch(self._zo_state.cache),
+    async def __reload_dex_markets(self):
+        ks = [
+            m.dex_market
+            for m in self._zo_state.perp_markets
+            if m.dex_market != PublicKey(0)
+        ]
+        res: Any = await self.connection.get_multiple_accounts(
+            ks, encoding="base64", commitment=Processed
         )
+        res = res["result"]["value"]
+        self.__dex_markets = {
+            self.__markets_map[i]: Market.from_base64(res[i]["data"][0])
+            for i in range(len(self.__markets))
+        }
 
+    async def __reload_orders(self):
+        if self._zo_margin is None:
+            return
+
+        ks = []
+        for i in range(len(self.__markets)):
+            mkt = self.__dex_markets[self.__markets_map[i]]
+            ks.extend((mkt.bids, mkt.asks))
+
+        res: Any = await self.connection.get_multiple_accounts(
+            ks, encoding="base64", commitment=Processed
+        )
+        res = res["result"]["value"]
+        orders = {}
+
+        for i in range(len(self.__markets)):
+            mkt = self.__dex_markets[self.__markets_map[i]]
+            ob = mkt._decode_orderbook_from_base64(
+                res[2 * i]["data"][0], res[2 * i + 1]["data"][0]
+            )
+            os = []
+            for slab in [ob.bids, ob.asks]:
+                for o in slab:
+                    if o.control == self._zo_margin.control:
+                        os.append(o)
+            orders[self.__markets_map[i]] = os
+
+        self.__orders = orders
+
+    async def __refresh_margin(self):
         if self._zo_margin_key is not None:
             self._zo_margin, self._zo_control = await asyncio.gather(
                 self.program.account["Margin"].fetch(self._zo_margin_key),
                 self.program.account["Control"].fetch(self._zo_margin.control),
             )
+
+    async def refresh(self):
+        self._zo_state, self._zo_cache, _ = await asyncio.gather(
+            self.program.account["State"].fetch(self.__config.ZO_STATE_ID),
+            self.program.account["Cache"].fetch(self._zo_state.cache),
+            self.__refresh_margin(),
+        )
+
+        self.__reload_collaterals()
+        self.__reload_markets()
+        self.__reload_balances()
+        self.__reload_positions()
+        await self.__reload_dex_markets()
+        await self.__reload_orders()
 
     async def deposit(
         self,
@@ -315,7 +420,7 @@ class Zo:
         if token_account is None:
             token_account = get_associated_token_address(self.wallet.public_key, mint)
 
-        decimals = self.collateral_info[mint].decimals
+        decimals = self.collaterals[mint].decimals
         amount = util.big_to_small_amount(amount, decimals=decimals)
 
         return await self.program.rpc["deposit"](
@@ -329,7 +434,7 @@ class Zo:
                     "authority": self.wallet.public_key,
                     "margin": self._zo_margin_key,
                     "token_account": token_account,
-                    "vault": self.collateral_info[mint].vault,
+                    "vault": self.collaterals[mint].vault,
                     "token_program": TOKEN_PROGRAM_ID,
                 }
             ),
@@ -347,7 +452,7 @@ class Zo:
         if token_account is None:
             token_account = get_associated_token_address(self.wallet.public_key, mint)
 
-        decimals = self.collateral_info[mint].decimals
+        decimals = self.collaterals[mint].decimals
         amount = util.big_to_small_amount(amount, decimals=decimals)
 
         return await self.program.rpc["withdraw"](
@@ -362,7 +467,7 @@ class Zo:
                     "margin": self._zo_margin_key,
                     "control": self._zo_margin.control,
                     "token_account": token_account,
-                    "vault": self.collateral_info[mint].vault,
+                    "vault": self.collaterals[mint].vault,
                     "token_program": TOKEN_PROGRAM_ID,
                 }
             ),
@@ -379,8 +484,8 @@ class Zo:
         limit: int = 10,
         client_id: int = 0,
     ):
-        mkt = await self._load_dex_market(symbol)
-        info = self.market_info[symbol]
+        mkt = self.__dex_markets[symbol]
+        info = self.markets[symbol]
         is_long = side == "bid"
         price = util.price_to_lots(
             price,
@@ -406,7 +511,7 @@ class Zo:
         else:
             oo_key, _ = util.open_orders_pda(
                 control=self._zo_margin.control,
-                dex_market=info.dex_market,
+                dex_market=info.address,
                 program_id=self.program.program_id,
             )
             pre_ixs = [
@@ -420,7 +525,7 @@ class Zo:
                             "margin": self._zo_margin_key,
                             "control": self._zo_margin.control,
                             "open_orders": oo_key,
-                            "dex_market": info.dex_market,
+                            "dex_market": info.address,
                             "dex_program": self.__config.ZO_DEX_ID,
                             "rent": SYSVAR_RENT_PUBKEY,
                             "system_program": SYS_PROGRAM_ID,
@@ -447,7 +552,7 @@ class Zo:
                     "margin": self._zo_margin_key,
                     "control": self._zo_margin.control,
                     "open_orders": oo_key,
-                    "dex_market": info.dex_market,
+                    "dex_market": info.address,
                     "req_q": mkt.req_q,
                     "event_q": mkt.event_q,
                     "market_bids": mkt.bids,
@@ -466,7 +571,7 @@ class Zo:
         order_id: None | int = None,
         client_id: None | int = None,
     ):
-        mkt = await self._load_dex_market(symbol)
+        mkt = self.__dex_markets[symbol]
         oo = self._get_open_orders_info(symbol)
 
         if oo is None:

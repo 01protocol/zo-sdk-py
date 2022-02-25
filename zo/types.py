@@ -30,9 +30,10 @@ class CollateralInfo:
 
 @dataclass(frozen=True)
 class MarketInfo:
+    address: PublicKey
     symbol: str
     oracle_symbol: str
-    perp_type: Any
+    perp_type: str
     base_decimals: int
     base_lot_size: int
     quote_decimals: int
@@ -40,8 +41,15 @@ class MarketInfo:
     strike: int
     base_imf: int
     liq_fee: int
-    dex_market: PublicKey
 
+
+@dataclass(frozen=True)
+class PositionInfo:
+    size: float
+    value: float
+    realized_pnl: float
+    funding_index: float
+    pos: Literal["long", "short"]
 
 def order_type_from_str(t: OrderType, /, *, program: Program):
     typ = program.type["OrderType"]
@@ -60,3 +68,16 @@ def order_type_from_str(t: OrderType, /, *, program: Program):
             return typ.FillOrKill()
         case _:
             raise TypeError(f"unsupported order type {t}")
+
+
+def perp_type_to_str(t: Any, /, *, program: Program) -> str:
+    t = str(t)
+    if t == "PerpType.Future()":
+        return "future"
+    if t == "PerpType.CallOption()":
+        return "calloption"
+    if t == "PerpType.PutOption()":
+        return "putoption"
+    if t == "PerpType.Square()":
+        return "square"
+    raise LookupError(f"invalid perp type {perp_type}")
