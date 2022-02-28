@@ -17,7 +17,7 @@ from spl.token.constants import TOKEN_PROGRAM_ID
 from . import util, types, config
 from .config import configs, Config
 from .types import Side, OrderType, CollateralInfo, MarketInfo, PositionInfo
-from .dex import Market, Order
+from .dex import Market, Orderbook, Order
 
 T = TypeVar("T")
 
@@ -46,6 +46,7 @@ class Zo:
 
     __markets: dict[str, MarketInfo]
     __collaterals: dict[str, CollateralInfo]
+    __orderbook: dict[str, Orderbook]
     __balance: dict[str, float]
     __position: dict[str, float]
 
@@ -198,6 +199,10 @@ class Zo:
     @property
     def markets(self):
         return ZoIndexer(self.__markets, lambda k: self._markets_map(k))
+
+    @property
+    def orderbook(self):
+        return ZoIndexer(self.__orderbook, lambda k: self._markets_map(k))
 
     @property
     def balance(self):
@@ -364,6 +369,7 @@ class Zo:
         )
         res = res["result"]["value"]
         orders = {}
+        orderbook = {}
 
         for i in range(len(self.__markets)):
             mkt = self.__dex_markets[self.__markets_map[i]]
@@ -375,8 +381,10 @@ class Zo:
                 for o in slab:
                     if o.control == self._zo_margin.control:
                         os.append(o)
+            orderbook[self.__markets_map[i]] = ob
             orders[self.__markets_map[i]] = os
 
+        self.__orderbook = orderbook
         self.__orders = orders
 
     async def __refresh_margin(self):
