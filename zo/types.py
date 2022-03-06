@@ -49,7 +49,8 @@ class PositionInfo:
     value: float
     realized_pnl: float
     funding_index: float
-    pos: Literal["long", "short"]
+    side: Literal["long", "short"]
+
 
 def order_type_from_str(t: OrderType, /, *, program: Program):
     typ = program.type["OrderType"]

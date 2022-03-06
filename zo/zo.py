@@ -319,10 +319,10 @@ class Zo:
             if (oo := self._get_open_orders_info(s)) is not None:
                 positions[s] = PositionInfo(
                     size=util.small_to_big_amount(
-                        oo.pos_size, decimals=m.base_decimals
+                        abs(oo.pos_size), decimals=m.base_decimals
                     ),
                     value=util.small_to_big_amount(
-                        oo.native_pc_total, decimals=m.quote_decimals
+                        abs(oo.native_pc_total), decimals=m.quote_decimals
                     ),
                     realized_pnl=util.small_to_big_amount(
                         oo.realized_pnl, decimals=m.base_decimals
@@ -330,11 +330,11 @@ class Zo:
                     funding_index=util.small_to_big_amount(
                         oo.funding_index, decimals=m.quote_decimals
                     ),
-                    pos="long" if oo.pos_size >= 0 else "short",
+                    side="long" if oo.pos_size >= 0 else "short",
                 )
             else:
                 positions[s] = PositionInfo(
-                    size=0, value=0, realized_pnl=0, funding_index=1, pos="long"
+                    size=0, value=0, realized_pnl=0, funding_index=1, side="long"
                 )
 
         self.__position = positions
