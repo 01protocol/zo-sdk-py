@@ -2,6 +2,9 @@
 name = "zo-sdk"
 version = "0.1.0-beta.4"
 license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/01protocol/zo-sdk-py"
+documentation = "https://01protocol.github.io/zo-sdk-py/"
 description = "01.xyz Python SDK"
 authors = ["Sheheryar Parvaz <me@cherryman.org>"]
 packages = [{ include = "zo" }]
@@ -13,6 +16,8 @@ solana = "^0.21.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
+mkdocstrings = "^0.18.1"
+mkdocs-material = "^8.2.5"
 
 [tool.pyright]
 reportWildcardImportFromLibrary = false

@@ -1,0 +1,12 @@
+site_name: zo
+theme:
+  name: "material"
+repo_url: https://github.com/01protocol/zo-sdk-py
+repo_name: 01protocol/zo-sdk-py
+markdown_extensions:
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.highlight
+plugins:
+- search
+- mkdocstrings

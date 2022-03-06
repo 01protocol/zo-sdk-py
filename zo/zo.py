@@ -84,8 +84,8 @@ class Zo:
     async def new(
         cls,
         *,
-        payer: Keypair | None = None,
         cluster: Literal["devnet", "mainnet"],
+        payer: Keypair | None = None,
         url: str | None = None,
         load_margin: bool = True,
         create_margin: bool = True,
@@ -96,6 +96,20 @@ class Zo:
             skip_preflight=False,
         ),
     ):
+        """Create a new client instance.
+
+        Args:
+            cluster: Which cluster to connect to.
+            payer: The transaction payer and margin owner. Defaults to
+                the local transaction payer.
+            url: URL for the RPC endpoint.
+            load_margin: Whether to load the associated margin account.
+                If `False`, any transaction requiring a margin will fail.
+            create_margin: Whether to create the associated margin
+                account if it doesn't already exist.
+            tx_opts: The transaction options.
+        """
+
         if cluster not in configs.keys():
             raise TypeError(f"`cluster` must be one of: {configs.keys()}")
 
@@ -194,26 +208,32 @@ class Zo:
 
     @property
     def collaterals(self):
+        """List of collaterals and their metadata."""
         return ZoIndexer(self.__collaterals, lambda k: self._collaterals_map(k))
 
     @property
     def markets(self):
+        """List of collaterals and markets metadata."""
         return ZoIndexer(self.__markets, lambda k: self._markets_map(k))
 
     @property
     def orderbook(self):
+        """Current state of the orderbook."""
         return ZoIndexer(self.__orderbook, lambda k: self._markets_map(k))
 
     @property
     def balance(self):
+        """Current account balance."""
         return ZoIndexer(self.__balance, lambda k: self._collaterals_map(k))
 
     @property
     def position(self):
+        """Current position."""
         return ZoIndexer(self.__position, lambda k: self._markets_map(k))
 
     @property
     def orders(self):
+        """Currently active orders."""
         return ZoIndexer(self.__orders, lambda k: self._markets_map(k))
 
     def _get_open_orders_info(self, key: int | str, /):
@@ -395,6 +415,7 @@ class Zo:
             )
 
     async def refresh(self):
+        """Refresh the loaded accounts to see updates."""
         self._zo_state, self._zo_cache, _ = await asyncio.gather(
             self.program.account["State"].fetch(self.__config.ZO_STATE_ID),
             self.program.account["Cache"].fetch(self._zo_state.cache),
@@ -414,16 +435,20 @@ class Zo:
         /,
         *,
         mint: PublicKey,
-        repay_only=False,
+        repay_only: bool = False,
         token_account: None | PublicKey = None,
-    ):
+    ) -> str:
         """Deposit collateral into the margin account.
 
-        :param size: The amount to deposit, in big units (e.g.: 1.5 SOL, 0.5 BTC).
-        :param mint: The mint of the collateral.
-        :repay_only: If true, will only deposit up to the amount borrowed.
-        :param token_account: The token account to deposit from, defaulting to
-            the associated token account.
+        Args:
+            amount: The amount to deposit, in big units (e.g.: 1.5 SOL, 0.5 BTC).
+            mint: Mint of the collateral being deposited.
+            repay_only: If true, will only deposit up to the amount borrowed.
+            token_account: The token account to deposit from, defaulting to
+                the associated token account.
+
+        Returns:
+            The transaction signature.
         """
         if token_account is None:
             token_account = get_associated_token_address(self.wallet.public_key, mint)
@@ -454,9 +479,24 @@ class Zo:
         /,
         *,
         mint: PublicKey,
-        allow_borrow=False,
+        allow_borrow: bool = False,
         token_account: None | PublicKey = None,
     ) -> str:
+        """Withdraw collateral from the margin account.
+
+        Args:
+            amount: The amount to withdraw, in big units (e.g.: 1.5 SOL, 0.5 BTC).
+            mint: The mint of the collateral.
+            allow_borrow: If true, will allow borrowing.
+            token_account: If false, will only be able to withdraw up to
+                the amount deposited. If false, amount parameter can be
+                set to an arbitrarily large number to ensure that all
+                deposits are fully withdrawn.
+
+        Returns:
+            The transaction signature.
+        """
+
         if token_account is None:
             token_account = get_associated_token_address(self.wallet.public_key, mint)
 
@@ -491,7 +531,29 @@ class Zo:
         order_type: OrderType,
         limit: int = 10,
         client_id: int = 0,
-    ):
+    ) -> str:
+        """Place an order on the orderbook.
+
+        Args:
+            size: The maximum amount of big base units to buy or sell.
+            price: The limit price in big quote units per big base
+                units, e.g. 50000 USD/SOL.
+            side: Whether to place a bid or an ask.
+            symbol: The market symbol, e.g. "BTC-PERP".
+            order_type: The order type.
+            limit: If this order is taking, the limit sets the number of
+                maker orders the fill will go through, until stopping and
+                posting. If running into compute unit issues, then set
+                this number lower.
+            client_id: Used to tag an order with a unique id, which can
+                be used to cancel this order through
+                cancelPerpOrderByClientId. For optimal use, make sure
+                all ids for every order is unique.
+
+        Returns:
+            The transaction signature.
+        """
+
         mkt = self.__dex_markets[symbol]
         info = self.markets[symbol]
         is_long = side == "bid"
@@ -606,8 +668,31 @@ class Zo:
             ),
         )
 
-    async def cancel_order_by_order_id(self, order_id: int, side: Side, *, symbol: str):
+    async def cancel_order_by_order_id(
+        self, order_id: int, side: Side, *, symbol: str
+    ) -> str:
+        """Cancel an order on the orderbook using the `order_id`.
+
+        Args:
+            order_id: The order id of the order to cancel. To get the
+                order_id, see the `orders` field.
+            side: Whether the order is a bid or an ask.
+            symbol: The market symbol, e.g. "BTC-PERP".
+
+        Returns:
+            The transaction signature.
+        """
         return await self.__cancel_order(symbol=symbol, order_id=order_id, side=side)
 
-    async def cancel_order_by_client_id(self, client_id: int, *, symbol: str):
+    async def cancel_order_by_client_id(self, client_id: int, *, symbol: str) -> str:
+        """Cancel an order on the orderbook using the `client_id`.
+
+        Args:
+            client_id: The client id that was assigned to the order
+                when it was placed..
+            symbol: The market symbol, e.g. "BTC-PERP".
+
+        Returns:
+            The transaction signature.
+        """
         return await self.__cancel_order(symbol=symbol, client_id=client_id)
