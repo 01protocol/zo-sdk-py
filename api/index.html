@@ -250,6 +250,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#zo.zo.Zo.place_order" class="md-nav__link">
+    place_order()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#zo.zo.Zo.withdraw" class="md-nav__link">
     withdraw()
   </a>
@@ -307,6 +314,13 @@
         <li class="md-nav__item">
   <a href="#zo.zo.Zo.new" class="md-nav__link">
     new()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.place_order" class="md-nav__link">
+    place_order()
   </a>
   
 </li>
@@ -826,6 +840,16 @@
         <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
         <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Withdraw collateral from the margin account.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            size:</span>
+<span class="sd">            price:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The transaction signature.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">mkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
         <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
         <span class="n">is_long</span> <span class="o">=</span> <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;bid&quot;</span>
@@ -1265,6 +1289,171 @@ account if it doesn't already exist.</p></td>
 
   </div>
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="zo.zo.Zo.place_order" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">place_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">order_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-async"><code>async</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Withdraw collateral from the margin account.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>size</code></td>
+        <td><code>float</code></td>
+        <td></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>price</code></td>
+        <td><code>float</code></td>
+        <td></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td><p>The transaction signature.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>zo/zo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">place_order</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">side</span><span class="p">:</span> <span class="n">Side</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">order_type</span><span class="p">:</span> <span class="n">OrderType</span><span class="p">,</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Withdraw collateral from the margin account.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        size:</span>
+<span class="sd">        price:</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The transaction signature.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
+    <span class="n">is_long</span> <span class="o">=</span> <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;bid&quot;</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">price_to_lots</span><span class="p">(</span>
+        <span class="n">price</span><span class="p">,</span>
+        <span class="n">base_decimals</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_decimals</span><span class="p">,</span>
+        <span class="n">quote_decimals</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">quote_decimals</span><span class="p">,</span>
+        <span class="n">base_lot_size</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_lot_size</span><span class="p">,</span>
+        <span class="n">quote_lot_size</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">quote_lot_size</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">order_type_</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">order_type_from_str</span><span class="p">(</span><span class="n">order_type</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+    <span class="n">taker_fee</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">taker_fee</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">perp_type</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+    <span class="n">fee_multiplier</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">taker_fee</span> <span class="k">if</span> <span class="n">is_long</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">taker_fee</span>
+    <span class="n">base_qty</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">size_to_lots</span><span class="p">(</span>
+        <span class="n">size</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_decimals</span><span class="p">,</span> <span class="n">lot_size</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_lot_size</span>
+    <span class="p">)</span>
+    <span class="n">quote_qty</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">price</span> <span class="o">*</span> <span class="n">fee_multiplier</span> <span class="o">*</span> <span class="n">base_qty</span> <span class="o">*</span> <span class="n">info</span><span class="o">.</span><span class="n">quote_lot_size</span><span class="p">)</span>
+
+    <span class="n">pre_ixs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">oo_key</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">oo_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_open_orders_info</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">oo_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">oo_key</span> <span class="o">=</span> <span class="n">oo_info</span><span class="o">.</span><span class="n">key</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">oo_key</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">open_orders_pda</span><span class="p">(</span>
+            <span class="n">control</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+            <span class="n">dex_market</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+            <span class="n">program_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">program_id</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">pre_ixs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">instruction</span><span class="p">[</span><span class="s2">&quot;create_perp_open_orders&quot;</span><span class="p">](</span>
+                <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+                    <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                        <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                        <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                        <span class="s2">&quot;payer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                        <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                        <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                        <span class="s2">&quot;open_orders&quot;</span><span class="p">:</span> <span class="n">oo_key</span><span class="p">,</span>
+                        <span class="s2">&quot;dex_market&quot;</span><span class="p">:</span> <span class="n">info</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+                        <span class="s2">&quot;dex_program&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_DEX_ID</span><span class="p">,</span>
+                        <span class="s2">&quot;rent&quot;</span><span class="p">:</span> <span class="n">SYSVAR_RENT_PUBKEY</span><span class="p">,</span>
+                        <span class="s2">&quot;system_program&quot;</span><span class="p">:</span> <span class="n">SYS_PROGRAM_ID</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="n">pre_instructions</span><span class="o">=</span><span class="n">pre_ixs</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+    <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;place_perp_order&quot;</span><span class="p">](</span>
+        <span class="n">is_long</span><span class="p">,</span>
+        <span class="n">price</span><span class="p">,</span>
+        <span class="n">base_qty</span><span class="p">,</span>
+        <span class="n">quote_qty</span><span class="p">,</span>
+        <span class="n">order_type_</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+            <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                <span class="s2">&quot;open_orders&quot;</span><span class="p">:</span> <span class="n">oo_key</span><span class="p">,</span>
+                <span class="s2">&quot;dex_market&quot;</span><span class="p">:</span> <span class="n">info</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+                <span class="s2">&quot;req_q&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">req_q</span><span class="p">,</span>
+                <span class="s2">&quot;event_q&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">event_q</span><span class="p">,</span>
+                <span class="s2">&quot;market_bids&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">bids</span><span class="p">,</span>
+                <span class="s2">&quot;market_asks&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">asks</span><span class="p">,</span>
+                <span class="s2">&quot;dex_program&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_DEX_ID</span><span class="p">,</span>
+                <span class="s2">&quot;rent&quot;</span><span class="p">:</span> <span class="n">SYSVAR_RENT_PUBKEY</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
