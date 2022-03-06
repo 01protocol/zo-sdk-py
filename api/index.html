@@ -1,0 +1,1461 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>API Reference - zo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="zo" class="md-header__button md-logo" aria-label="zo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            zo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="zo" class="md-nav__button md-logo" aria-label="zo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    zo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          API Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        API Reference
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo" class="md-nav__link">
+    zo.zo.Zo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.deposit" class="md-nav__link">
+    deposit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.new" class="md-nav__link">
+    new()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.withdraw" class="md-nav__link">
+    withdraw()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo" class="md-nav__link">
+    zo.zo.Zo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.deposit" class="md-nav__link">
+    deposit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.new" class="md-nav__link">
+    new()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zo.zo.Zo.withdraw" class="md-nav__link">
+    withdraw()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="api-reference">API Reference</h1>
+
+
+  <div class="doc doc-object doc-class">
+
+<a id="zo.zo.Zo"></a>
+    <div class="doc doc-contents first">
+
+
+        <details class="quote">
+          <summary>Source code in <code>zo/zo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Zo</span><span class="p">:</span>
+    <span class="n">__program</span><span class="p">:</span> <span class="n">Program</span>
+    <span class="n">__config</span><span class="p">:</span> <span class="n">Config</span>
+
+    <span class="n">__markets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MarketInfo</span><span class="p">]</span>
+    <span class="n">__collaterals</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CollateralInfo</span><span class="p">]</span>
+    <span class="n">__orderbook</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Orderbook</span><span class="p">]</span>
+    <span class="n">__balance</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="n">__position</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+
+    <span class="n">__dex_markets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Market</span><span class="p">]</span>
+    <span class="n">__orders</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Order</span><span class="p">]]</span>
+
+    <span class="n">__markets_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">__collaterals_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+
+    <span class="n">_zo_state</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">_zo_state_signer</span><span class="p">:</span> <span class="n">PublicKey</span>
+    <span class="n">_zo_cache</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">_zo_margin</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">_zo_margin_key</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">PublicKey</span>
+    <span class="n">_zo_control</span><span class="p">:</span> <span class="n">Any</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">_program</span><span class="p">,</span>
+        <span class="n">_config</span><span class="p">,</span>
+        <span class="n">_state</span><span class="p">,</span>
+        <span class="n">_state_signer</span><span class="p">,</span>
+        <span class="n">_margin</span><span class="p">,</span>
+        <span class="n">_margin_key</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__program</span> <span class="o">=</span> <span class="n">_program</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__config</span> <span class="o">=</span> <span class="n">_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span> <span class="o">=</span> <span class="n">_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span> <span class="o">=</span> <span class="n">_state_signer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span> <span class="o">=</span> <span class="n">_margin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span> <span class="o">=</span> <span class="n">_margin_key</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">new</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">cluster</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;devnet&quot;</span><span class="p">,</span> <span class="s2">&quot;mainnet&quot;</span><span class="p">],</span>
+        <span class="n">payer</span><span class="p">:</span> <span class="n">Keypair</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">load_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">create_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">tx_opts</span><span class="p">:</span> <span class="n">TxOpts</span> <span class="o">=</span> <span class="n">TxOpts</span><span class="p">(</span>
+            <span class="n">max_retries</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">preflight_commitment</span><span class="o">=</span><span class="n">Finalized</span><span class="p">,</span>
+            <span class="n">skip_confirmation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">skip_preflight</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new client instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cluster: Which cluster to connect to.</span>
+<span class="sd">            payer: The transaction payer and margin owner. Defaults to</span>
+<span class="sd">                the local transaction payer.</span>
+<span class="sd">            url: URL for the RPC endpoint.</span>
+<span class="sd">            load_margin: Whether to load the associated margin account.</span>
+<span class="sd">                If `False`, any transaction requiring a margin will fail.</span>
+<span class="sd">            create_margin: Whether to create the associated margin</span>
+<span class="sd">                account if it doesn&#39;t already exist.</span>
+<span class="sd">            tx_opts: The transaction options.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">cluster</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">configs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`cluster` must be one of: </span><span class="si">{</span><span class="n">configs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configs</span><span class="p">[</span><span class="n">cluster</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">CLUSTER_URL</span>
+
+        <span class="n">idl_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;idl.json&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">idl_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">raw_idl</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">idl</span> <span class="o">=</span> <span class="n">Idl</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">raw_idl</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">wallet</span> <span class="o">=</span> <span class="n">Wallet</span><span class="p">(</span><span class="n">payer</span><span class="p">)</span> <span class="k">if</span> <span class="n">payer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Wallet</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
+        <span class="n">provider</span> <span class="o">=</span> <span class="n">Provider</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">wallet</span><span class="p">,</span> <span class="n">opts</span><span class="o">=</span><span class="n">tx_opts</span><span class="p">)</span>
+        <span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">idl</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="n">provider</span><span class="p">)</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="k">await</span> <span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;State&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">)</span>
+        <span class="n">state_signer</span><span class="p">,</span> <span class="n">state_signer_nonce</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">state_signer_pda</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span> <span class="n">program_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">signer_nonce</span> <span class="o">!=</span> <span class="n">state_signer_nonce</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid state key (</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="si">}</span><span class="s2">) for program id (</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">margin</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">margin_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">load_margin</span><span class="p">:</span>
+            <span class="n">margin_key</span><span class="p">,</span> <span class="n">nonce</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">margin_pda</span><span class="p">(</span>
+                <span class="n">owner</span><span class="o">=</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                <span class="n">state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                <span class="n">program_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">margin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Margin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">margin_key</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">AccountDoesNotExistError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">create_margin</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+
+                <span class="k">await</span> <span class="n">util</span><span class="o">.</span><span class="n">create_margin</span><span class="p">(</span>
+                    <span class="n">program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span>
+                    <span class="n">state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">margin_key</span><span class="p">,</span>
+                    <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">margin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Margin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">margin_key</span><span class="p">)</span>
+
+        <span class="n">zo</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">_config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">_program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span>
+            <span class="n">_state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span>
+            <span class="n">_state_signer</span><span class="o">=</span><span class="n">state_signer</span><span class="p">,</span>
+            <span class="n">_margin</span><span class="o">=</span><span class="n">margin</span><span class="p">,</span>
+            <span class="n">_margin_key</span><span class="o">=</span><span class="n">margin_key</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">await</span> <span class="n">zo</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">zo</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">program</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Program</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__program</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">provider</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Provider</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">provider</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncClient</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">connection</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Wallet</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">wallet</span>
+
+    <span class="k">def</span> <span class="nf">_collaterals_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">PublicKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">PublicKey</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">collaterals</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">mint</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__collaterals_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__collaterals_map</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_markets_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">PublicKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">PublicKey</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">perp_markets</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">dex_market</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">collaterals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ZoIndexer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__collaterals</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collaterals_map</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">markets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ZoIndexer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_markets_map</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">orderbook</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ZoIndexer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__orderbook</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_markets_map</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ZoIndexer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__balance</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collaterals_map</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ZoIndexer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__position</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_markets_map</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">orders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ZoIndexer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__orders</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_markets_map</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_get_open_orders_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">/</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">key</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">k</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_control</span><span class="o">.</span><span class="n">open_orders_agg</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">o</span> <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">key</span> <span class="o">!=</span> <span class="n">PublicKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__reload_collaterals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">collaterals</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">collaterals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">mint</span> <span class="o">==</span> <span class="n">PublicKey</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
+                <span class="k">break</span>
+
+            <span class="n">symbol</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">decode_symbol</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">oracle_symbol</span><span class="p">)</span>
+            <span class="nb">map</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">=</span> <span class="n">symbol</span>
+            <span class="nb">map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">symbol</span>
+
+            <span class="n">collaterals</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">=</span> <span class="n">CollateralInfo</span><span class="p">(</span>
+                <span class="n">mint</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">mint</span><span class="p">,</span>
+                <span class="n">oracle_symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+                <span class="n">decimals</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">decimals</span><span class="p">,</span>
+                <span class="n">weight</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                <span class="n">liq_fee</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">liq_fee</span><span class="p">,</span>
+                <span class="n">is_borrowable</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">is_borrowable</span><span class="p">,</span>
+                <span class="n">optimal_util</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">optimal_util</span><span class="p">,</span>
+                <span class="n">optimal_rate</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">optimal_rate</span><span class="p">,</span>
+                <span class="n">max_rate</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">max_rate</span><span class="p">,</span>
+                <span class="n">og_fee</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">og_fee</span><span class="p">,</span>
+                <span class="n">is_swappable</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">is_swappable</span><span class="p">,</span>
+                <span class="n">serum_open_orders</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">serum_open_orders</span><span class="p">,</span>
+                <span class="n">max_deposit</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">max_deposit</span><span class="p">,</span>
+                <span class="n">dust_threshold</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">dust_threshold</span><span class="p">,</span>
+                <span class="n">vault</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">vaults</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__collaterals_map</span> <span class="o">=</span> <span class="nb">map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__collaterals</span> <span class="o">=</span> <span class="n">collaterals</span>
+
+    <span class="k">def</span> <span class="nf">__reload_markets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">markets</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">perp_markets</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">dex_market</span> <span class="o">==</span> <span class="n">PublicKey</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
+                <span class="k">break</span>
+
+            <span class="n">symbol</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">decode_symbol</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span>
+            <span class="nb">map</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">=</span> <span class="n">symbol</span>
+            <span class="nb">map</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">symbol</span>
+
+            <span class="n">markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span> <span class="o">=</span> <span class="n">MarketInfo</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">dex_market</span><span class="p">,</span>
+                <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span>
+                <span class="n">oracle_symbol</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">decode_symbol</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">oracle_symbol</span><span class="p">),</span>
+                <span class="n">perp_type</span><span class="o">=</span><span class="n">types</span><span class="o">.</span><span class="n">perp_type_to_str</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">perp_type</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">),</span>
+                <span class="n">base_decimals</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">asset_decimals</span><span class="p">,</span>
+                <span class="n">base_lot_size</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">asset_lot_size</span><span class="p">,</span>
+                <span class="n">quote_decimals</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                <span class="n">quote_lot_size</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">quote_lot_size</span><span class="p">,</span>
+                <span class="n">strike</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">strike</span><span class="p">,</span>
+                <span class="n">base_imf</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">base_imf</span><span class="p">,</span>
+                <span class="n">liq_fee</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">liq_fee</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span> <span class="o">=</span> <span class="nb">map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__markets</span> <span class="o">=</span> <span class="n">markets</span>
+
+    <span class="k">def</span> <span class="nf">__reload_balances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">balances</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">collateral</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__collaterals_map</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">decimals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">decimals</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">decode_wrapped_i80f48</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_cache</span><span class="o">.</span><span class="n">borrow_cache</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">supply_multiplier</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">m</span><span class="o">.</span><span class="n">borrow_multiplier</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">decode_wrapped_i80f48</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+            <span class="n">balances</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__collaterals_map</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">small_to_big_amount</span><span class="p">(</span>
+                <span class="n">c</span> <span class="o">*</span> <span class="n">m</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__balance</span> <span class="o">=</span> <span class="n">balances</span>
+
+    <span class="k">def</span> <span class="nf">__reload_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">positions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">markets</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">oo</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_open_orders_info</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">positions</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">PositionInfo</span><span class="p">(</span>
+                    <span class="n">size</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">small_to_big_amount</span><span class="p">(</span>
+                        <span class="nb">abs</span><span class="p">(</span><span class="n">oo</span><span class="o">.</span><span class="n">pos_size</span><span class="p">),</span> <span class="n">decimals</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">base_decimals</span>
+                    <span class="p">),</span>
+                    <span class="n">value</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">small_to_big_amount</span><span class="p">(</span>
+                        <span class="nb">abs</span><span class="p">(</span><span class="n">oo</span><span class="o">.</span><span class="n">native_pc_total</span><span class="p">),</span> <span class="n">decimals</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">quote_decimals</span>
+                    <span class="p">),</span>
+                    <span class="n">realized_pnl</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">small_to_big_amount</span><span class="p">(</span>
+                        <span class="n">oo</span><span class="o">.</span><span class="n">realized_pnl</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">base_decimals</span>
+                    <span class="p">),</span>
+                    <span class="n">funding_index</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">small_to_big_amount</span><span class="p">(</span>
+                        <span class="n">oo</span><span class="o">.</span><span class="n">funding_index</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">quote_decimals</span>
+                    <span class="p">),</span>
+                    <span class="n">side</span><span class="o">=</span><span class="s2">&quot;long&quot;</span> <span class="k">if</span> <span class="n">oo</span><span class="o">.</span><span class="n">pos_size</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;short&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">positions</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">PositionInfo</span><span class="p">(</span>
+                    <span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">realized_pnl</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">funding_index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;long&quot;</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__position</span> <span class="o">=</span> <span class="n">positions</span>
+        <span class="k">pass</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__reload_dex_markets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">dex_market</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">perp_markets</span>
+            <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">dex_market</span> <span class="o">!=</span> <span class="n">PublicKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">res</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_multiple_accounts</span><span class="p">(</span>
+            <span class="n">ks</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;base64&quot;</span><span class="p">,</span> <span class="n">commitment</span><span class="o">=</span><span class="n">Processed</span>
+        <span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">Market</span><span class="o">.</span><span class="n">from_base64</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets</span><span class="p">))</span>
+        <span class="p">}</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__reload_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">ks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets</span><span class="p">)):</span>
+            <span class="n">mkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">ks</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">mkt</span><span class="o">.</span><span class="n">bids</span><span class="p">,</span> <span class="n">mkt</span><span class="o">.</span><span class="n">asks</span><span class="p">))</span>
+
+        <span class="n">res</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">get_multiple_accounts</span><span class="p">(</span>
+            <span class="n">ks</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;base64&quot;</span><span class="p">,</span> <span class="n">commitment</span><span class="o">=</span><span class="n">Processed</span>
+        <span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="n">orders</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">orderbook</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets</span><span class="p">)):</span>
+            <span class="n">mkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">ob</span> <span class="o">=</span> <span class="n">mkt</span><span class="o">.</span><span class="n">_decode_orderbook_from_base64</span><span class="p">(</span>
+                <span class="n">res</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">os</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">slab</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ob</span><span class="o">.</span><span class="n">bids</span><span class="p">,</span> <span class="n">ob</span><span class="o">.</span><span class="n">asks</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">slab</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">control</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+            <span class="n">orderbook</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ob</span>
+            <span class="n">orders</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__markets_map</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">os</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__orderbook</span> <span class="o">=</span> <span class="n">orderbook</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__orders</span> <span class="o">=</span> <span class="n">orders</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__refresh_margin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_control</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Margin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Control&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">),</span>
+            <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_cache</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;State&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Cache&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__refresh_margin</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reload_collaterals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reload_markets</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reload_balances</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reload_positions</span><span class="p">()</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reload_dex_markets</span><span class="p">()</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reload_orders</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">/</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">mint</span><span class="p">:</span> <span class="n">PublicKey</span><span class="p">,</span>
+        <span class="n">repay_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">token_account</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">PublicKey</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Deposit collateral into the margin account.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            amount: The amount to deposit, in big units (e.g.: 1.5 SOL, 0.5 BTC).</span>
+<span class="sd">            mint: The mint of the collateral.</span>
+<span class="sd">            repay_only: If true, will only deposit up to the amount borrowed.</span>
+<span class="sd">            token_account: The token account to deposit from, defaulting to</span>
+<span class="sd">                the associated token account.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The transaction signature.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">token_account</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">token_account</span> <span class="o">=</span> <span class="n">get_associated_token_address</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="n">mint</span><span class="p">)</span>
+
+        <span class="n">decimals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">decimals</span>
+        <span class="n">amount</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">big_to_small_amount</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;deposit&quot;</span><span class="p">](</span>
+            <span class="n">repay_only</span><span class="p">,</span>
+            <span class="n">amount</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+                <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                    <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                    <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                    <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                    <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                    <span class="s2">&quot;token_account&quot;</span><span class="p">:</span> <span class="n">token_account</span><span class="p">,</span>
+                    <span class="s2">&quot;vault&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">vault</span><span class="p">,</span>
+                    <span class="s2">&quot;token_program&quot;</span><span class="p">:</span> <span class="n">TOKEN_PROGRAM_ID</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="o">/</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">mint</span><span class="p">:</span> <span class="n">PublicKey</span><span class="p">,</span>
+        <span class="n">allow_borrow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">token_account</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">PublicKey</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Withdraw collateral from the margin account.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            amount: The amount to withdraw, in big units (e.g.: 1.5 SOL, 0.5 BTC).</span>
+<span class="sd">            mint: The mint of the collateral.</span>
+<span class="sd">            allow_borrow: If true, will allow borrowing.</span>
+<span class="sd">            token_account: The token account to deposit from, defaulting to</span>
+<span class="sd">                the associated token account.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The transaction signature.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">token_account</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">token_account</span> <span class="o">=</span> <span class="n">get_associated_token_address</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="n">mint</span><span class="p">)</span>
+
+        <span class="n">decimals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">decimals</span>
+        <span class="n">amount</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">big_to_small_amount</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;withdraw&quot;</span><span class="p">](</span>
+            <span class="n">allow_borrow</span><span class="p">,</span>
+            <span class="n">amount</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+                <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                    <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                    <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                    <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                    <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                    <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                    <span class="s2">&quot;token_account&quot;</span><span class="p">:</span> <span class="n">token_account</span><span class="p">,</span>
+                    <span class="s2">&quot;vault&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">vault</span><span class="p">,</span>
+                    <span class="s2">&quot;token_program&quot;</span><span class="p">:</span> <span class="n">TOKEN_PROGRAM_ID</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">place_order</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">price</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">side</span><span class="p">:</span> <span class="n">Side</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">order_type</span><span class="p">:</span> <span class="n">OrderType</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">mkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
+        <span class="n">is_long</span> <span class="o">=</span> <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;bid&quot;</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">price_to_lots</span><span class="p">(</span>
+            <span class="n">price</span><span class="p">,</span>
+            <span class="n">base_decimals</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_decimals</span><span class="p">,</span>
+            <span class="n">quote_decimals</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">quote_decimals</span><span class="p">,</span>
+            <span class="n">base_lot_size</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_lot_size</span><span class="p">,</span>
+            <span class="n">quote_lot_size</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">quote_lot_size</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">order_type_</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">order_type_from_str</span><span class="p">(</span><span class="n">order_type</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+        <span class="n">taker_fee</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">taker_fee</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">perp_type</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+        <span class="n">fee_multiplier</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">taker_fee</span> <span class="k">if</span> <span class="n">is_long</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">taker_fee</span>
+        <span class="n">base_qty</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">size_to_lots</span><span class="p">(</span>
+            <span class="n">size</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_decimals</span><span class="p">,</span> <span class="n">lot_size</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">base_lot_size</span>
+        <span class="p">)</span>
+        <span class="n">quote_qty</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">price</span> <span class="o">*</span> <span class="n">fee_multiplier</span> <span class="o">*</span> <span class="n">base_qty</span> <span class="o">*</span> <span class="n">info</span><span class="o">.</span><span class="n">quote_lot_size</span><span class="p">)</span>
+
+        <span class="n">pre_ixs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">oo_key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">oo_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_open_orders_info</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">oo_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">oo_key</span> <span class="o">=</span> <span class="n">oo_info</span><span class="o">.</span><span class="n">key</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">oo_key</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">open_orders_pda</span><span class="p">(</span>
+                <span class="n">control</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                <span class="n">dex_market</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+                <span class="n">program_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">program_id</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">pre_ixs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">instruction</span><span class="p">[</span><span class="s2">&quot;create_perp_open_orders&quot;</span><span class="p">](</span>
+                    <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+                        <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                            <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                            <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                            <span class="s2">&quot;payer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                            <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                            <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                            <span class="s2">&quot;open_orders&quot;</span><span class="p">:</span> <span class="n">oo_key</span><span class="p">,</span>
+                            <span class="s2">&quot;dex_market&quot;</span><span class="p">:</span> <span class="n">info</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+                            <span class="s2">&quot;dex_program&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_DEX_ID</span><span class="p">,</span>
+                            <span class="s2">&quot;rent&quot;</span><span class="p">:</span> <span class="n">SYSVAR_RENT_PUBKEY</span><span class="p">,</span>
+                            <span class="s2">&quot;system_program&quot;</span><span class="p">:</span> <span class="n">SYS_PROGRAM_ID</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="n">pre_instructions</span><span class="o">=</span><span class="n">pre_ixs</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;place_perp_order&quot;</span><span class="p">](</span>
+            <span class="n">is_long</span><span class="p">,</span>
+            <span class="n">price</span><span class="p">,</span>
+            <span class="n">base_qty</span><span class="p">,</span>
+            <span class="n">quote_qty</span><span class="p">,</span>
+            <span class="n">order_type_</span><span class="p">,</span>
+            <span class="n">limit</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+                <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                    <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                    <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                    <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                    <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                    <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                    <span class="s2">&quot;open_orders&quot;</span><span class="p">:</span> <span class="n">oo_key</span><span class="p">,</span>
+                    <span class="s2">&quot;dex_market&quot;</span><span class="p">:</span> <span class="n">info</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+                    <span class="s2">&quot;req_q&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">req_q</span><span class="p">,</span>
+                    <span class="s2">&quot;event_q&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">event_q</span><span class="p">,</span>
+                    <span class="s2">&quot;market_bids&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">bids</span><span class="p">,</span>
+                    <span class="s2">&quot;market_asks&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">asks</span><span class="p">,</span>
+                    <span class="s2">&quot;dex_program&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_DEX_ID</span><span class="p">,</span>
+                    <span class="s2">&quot;rent&quot;</span><span class="p">:</span> <span class="n">SYSVAR_RENT_PUBKEY</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__cancel_order</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">side</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">Side</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">order_id</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">mkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dex_markets</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
+        <span class="n">oo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_open_orders_info</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">oo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;open orders account is uninitialized&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;cancel_perp_order&quot;</span><span class="p">](</span>
+            <span class="n">order_id</span><span class="p">,</span>
+            <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;bid&quot;</span><span class="p">,</span>
+            <span class="n">client_id</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+                <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                    <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                    <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                    <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                    <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                    <span class="s2">&quot;open_orders&quot;</span><span class="p">:</span> <span class="n">oo</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+                    <span class="s2">&quot;dex_market&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">own_address</span><span class="p">,</span>
+                    <span class="s2">&quot;market_bids&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">bids</span><span class="p">,</span>
+                    <span class="s2">&quot;market_asks&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">asks</span><span class="p">,</span>
+                    <span class="s2">&quot;event_q&quot;</span><span class="p">:</span> <span class="n">mkt</span><span class="o">.</span><span class="n">event_q</span><span class="p">,</span>
+                    <span class="s2">&quot;dex_program&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_DEX_ID</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">cancel_order_by_order_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="n">Side</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cancel_order</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">cancel_order_by_client_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cancel_order</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="zo.zo.Zo.deposit" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">deposit</span><span class="p">(</span><span class="o">/</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mint</span><span class="p">,</span> <span class="n">repay_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">token_account</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-async"><code>async</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Deposit collateral into the margin account.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>amount</code></td>
+        <td><code>float</code></td>
+        <td><p>The amount to deposit, in big units (e.g.: 1.5 SOL, 0.5 BTC).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>mint</code></td>
+        <td><code>PublicKey</code></td>
+        <td><p>The mint of the collateral.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>repay_only</code></td>
+        <td><code>bool</code></td>
+        <td><p>If true, will only deposit up to the amount borrowed.</p></td>
+        <td><code>False</code></td>
+      </tr>
+      <tr>
+        <td><code>token_account</code></td>
+        <td><code>None | solana.publickey.PublicKey</code></td>
+        <td><p>The token account to deposit from, defaulting to
+the associated token account.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>The transaction signature.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>zo/zo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">/</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mint</span><span class="p">:</span> <span class="n">PublicKey</span><span class="p">,</span>
+    <span class="n">repay_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">token_account</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">PublicKey</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Deposit collateral into the margin account.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        amount: The amount to deposit, in big units (e.g.: 1.5 SOL, 0.5 BTC).</span>
+<span class="sd">        mint: The mint of the collateral.</span>
+<span class="sd">        repay_only: If true, will only deposit up to the amount borrowed.</span>
+<span class="sd">        token_account: The token account to deposit from, defaulting to</span>
+<span class="sd">            the associated token account.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The transaction signature.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">token_account</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">token_account</span> <span class="o">=</span> <span class="n">get_associated_token_address</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="n">mint</span><span class="p">)</span>
+
+    <span class="n">decimals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">decimals</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">big_to_small_amount</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;deposit&quot;</span><span class="p">](</span>
+        <span class="n">repay_only</span><span class="p">,</span>
+        <span class="n">amount</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+            <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                <span class="s2">&quot;token_account&quot;</span><span class="p">:</span> <span class="n">token_account</span><span class="p">,</span>
+                <span class="s2">&quot;vault&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">vault</span><span class="p">,</span>
+                <span class="s2">&quot;token_program&quot;</span><span class="p">:</span> <span class="n">TOKEN_PROGRAM_ID</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="zo.zo.Zo.new" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">new</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">payer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">load_margin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">create_margin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tx_opts</span><span class="o">=</span><span class="n">TxOpts</span><span class="p">(</span><span class="n">skip_confirmation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_preflight</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">preflight_commitment</span><span class="o">=</span><span class="s1">&#39;finalized&#39;</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-async"><code>async</code></small>
+      <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Create a new client instance.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>cluster</code></td>
+        <td><code>Literal[&#39;devnet&#39;, &#39;mainnet&#39;]</code></td>
+        <td><p>Which cluster to connect to.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>payer</code></td>
+        <td><code>solana.keypair.Keypair | None</code></td>
+        <td><p>The transaction payer and margin owner. Defaults to
+the local transaction payer.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>url</code></td>
+        <td><code>str | None</code></td>
+        <td><p>URL for the RPC endpoint.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>load_margin</code></td>
+        <td><code>bool</code></td>
+        <td><p>Whether to load the associated margin account.
+If <code>False</code>, any transaction requiring a margin will fail.</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>create_margin</code></td>
+        <td><code>bool</code></td>
+        <td><p>Whether to create the associated margin
+account if it doesn't already exist.</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>tx_opts</code></td>
+        <td><code>TxOpts</code></td>
+        <td><p>The transaction options.</p></td>
+        <td><code>TxOpts(skip_confirmation=False, skip_preflight=False, preflight_commitment=&#39;finalized&#39;, max_retries=None)</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>zo/zo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">new</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">cluster</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;devnet&quot;</span><span class="p">,</span> <span class="s2">&quot;mainnet&quot;</span><span class="p">],</span>
+    <span class="n">payer</span><span class="p">:</span> <span class="n">Keypair</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">load_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">create_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">tx_opts</span><span class="p">:</span> <span class="n">TxOpts</span> <span class="o">=</span> <span class="n">TxOpts</span><span class="p">(</span>
+        <span class="n">max_retries</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">preflight_commitment</span><span class="o">=</span><span class="n">Finalized</span><span class="p">,</span>
+        <span class="n">skip_confirmation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_preflight</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a new client instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cluster: Which cluster to connect to.</span>
+<span class="sd">        payer: The transaction payer and margin owner. Defaults to</span>
+<span class="sd">            the local transaction payer.</span>
+<span class="sd">        url: URL for the RPC endpoint.</span>
+<span class="sd">        load_margin: Whether to load the associated margin account.</span>
+<span class="sd">            If `False`, any transaction requiring a margin will fail.</span>
+<span class="sd">        create_margin: Whether to create the associated margin</span>
+<span class="sd">            account if it doesn&#39;t already exist.</span>
+<span class="sd">        tx_opts: The transaction options.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">cluster</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">configs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`cluster` must be one of: </span><span class="si">{</span><span class="n">configs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">configs</span><span class="p">[</span><span class="n">cluster</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">CLUSTER_URL</span>
+
+    <span class="n">idl_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;idl.json&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">idl_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">raw_idl</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">idl</span> <span class="o">=</span> <span class="n">Idl</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">raw_idl</span><span class="p">)</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">AsyncClient</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">wallet</span> <span class="o">=</span> <span class="n">Wallet</span><span class="p">(</span><span class="n">payer</span><span class="p">)</span> <span class="k">if</span> <span class="n">payer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Wallet</span><span class="o">.</span><span class="n">local</span><span class="p">()</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">Provider</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">wallet</span><span class="p">,</span> <span class="n">opts</span><span class="o">=</span><span class="n">tx_opts</span><span class="p">)</span>
+    <span class="n">program</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="n">idl</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="n">provider</span><span class="p">)</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="k">await</span> <span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;State&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">)</span>
+    <span class="n">state_signer</span><span class="p">,</span> <span class="n">state_signer_nonce</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">state_signer_pda</span><span class="p">(</span>
+        <span class="n">state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span> <span class="n">program_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">signer_nonce</span> <span class="o">!=</span> <span class="n">state_signer_nonce</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid state key (</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="si">}</span><span class="s2">) for program id (</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">margin</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">margin_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">load_margin</span><span class="p">:</span>
+        <span class="n">margin_key</span><span class="p">,</span> <span class="n">nonce</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">margin_pda</span><span class="p">(</span>
+            <span class="n">owner</span><span class="o">=</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+            <span class="n">program_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_PROGRAM_ID</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">margin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Margin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">margin_key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AccountDoesNotExistError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">create_margin</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+            <span class="k">await</span> <span class="n">util</span><span class="o">.</span><span class="n">create_margin</span><span class="p">(</span>
+                <span class="n">program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span>
+                <span class="n">state</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">margin_key</span><span class="p">,</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">margin</span> <span class="o">=</span> <span class="k">await</span> <span class="n">program</span><span class="o">.</span><span class="n">account</span><span class="p">[</span><span class="s2">&quot;Margin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">margin_key</span><span class="p">)</span>
+
+    <span class="n">zo</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+        <span class="n">_config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">_program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span>
+        <span class="n">_state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span>
+        <span class="n">_state_signer</span><span class="o">=</span><span class="n">state_signer</span><span class="p">,</span>
+        <span class="n">_margin</span><span class="o">=</span><span class="n">margin</span><span class="p">,</span>
+        <span class="n">_margin_key</span><span class="o">=</span><span class="n">margin_key</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">await</span> <span class="n">zo</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">zo</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="zo.zo.Zo.withdraw" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">withdraw</span><span class="p">(</span><span class="o">/</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mint</span><span class="p">,</span> <span class="n">allow_borrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">token_account</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-async"><code>async</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Withdraw collateral from the margin account.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>amount</code></td>
+        <td><code>float</code></td>
+        <td><p>The amount to withdraw, in big units (e.g.: 1.5 SOL, 0.5 BTC).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>mint</code></td>
+        <td><code>PublicKey</code></td>
+        <td><p>The mint of the collateral.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>allow_borrow</code></td>
+        <td><code>bool</code></td>
+        <td><p>If true, will allow borrowing.</p></td>
+        <td><code>False</code></td>
+      </tr>
+      <tr>
+        <td><code>token_account</code></td>
+        <td><code>None | solana.publickey.PublicKey</code></td>
+        <td><p>The token account to deposit from, defaulting to
+the associated token account.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>The transaction signature.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>zo/zo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">withdraw</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">/</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mint</span><span class="p">:</span> <span class="n">PublicKey</span><span class="p">,</span>
+    <span class="n">allow_borrow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">token_account</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">PublicKey</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Withdraw collateral from the margin account.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        amount: The amount to withdraw, in big units (e.g.: 1.5 SOL, 0.5 BTC).</span>
+<span class="sd">        mint: The mint of the collateral.</span>
+<span class="sd">        allow_borrow: If true, will allow borrowing.</span>
+<span class="sd">        token_account: The token account to deposit from, defaulting to</span>
+<span class="sd">            the associated token account.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The transaction signature.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">token_account</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">token_account</span> <span class="o">=</span> <span class="n">get_associated_token_address</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="n">mint</span><span class="p">)</span>
+
+    <span class="n">decimals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">decimals</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">big_to_small_amount</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">rpc</span><span class="p">[</span><span class="s2">&quot;withdraw&quot;</span><span class="p">](</span>
+        <span class="n">allow_borrow</span><span class="p">,</span>
+        <span class="n">amount</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="o">=</span><span class="n">Context</span><span class="p">(</span>
+            <span class="n">accounts</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__config</span><span class="o">.</span><span class="n">ZO_STATE_ID</span><span class="p">,</span>
+                <span class="s2">&quot;state_signer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state_signer</span><span class="p">,</span>
+                <span class="s2">&quot;cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_state</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span>
+                <span class="s2">&quot;authority&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wallet</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin_key</span><span class="p">,</span>
+                <span class="s2">&quot;control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zo_margin</span><span class="o">.</span><span class="n">control</span><span class="p">,</span>
+                <span class="s2">&quot;token_account&quot;</span><span class="p">:</span> <span class="n">token_account</span><span class="p">,</span>
+                <span class="s2">&quot;vault&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">collaterals</span><span class="p">[</span><span class="n">mint</span><span class="p">]</span><span class="o">.</span><span class="n">vault</span><span class="p">,</span>
+                <span class="s2">&quot;token_program&quot;</span><span class="p">:</span> <span class="n">TOKEN_PROGRAM_ID</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Home
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+    
+  </body>
+</html>
