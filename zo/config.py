@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from anchorpy import Program
 from solana.publickey import PublicKey
+
+from .types import PerpType
 
 
 @dataclass(kw_only=True)
@@ -30,15 +31,11 @@ configs = {
 }
 
 
-def taker_fee(perp_type, *, program: Program) -> float:
-    # HACK: Enum comparison is currently broken, so using `str`.
-    if str(perp_type) == "PerpType.Future()":
+def taker_fee(t: PerpType, /) -> float:
+    if t == "future":
         return 10 / 10000
-    if (
-        str(perp_type) == "PerpType.CallOption()"
-        or str(perp_type) == "PerpType.PutOption()"
-    ):
+    if t == "calloption" or t == "putoption":
         return 10 / 10000
-    if str(perp_type) == "PerpType.Square()":
+    if t == "square":
         return 15 / 10000
-    raise LookupError(f"invalid perp type {perp_type}")
+    raise LookupError(f"invalid perp type {t}")

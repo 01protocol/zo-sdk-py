@@ -565,7 +565,7 @@ class Zo:
             quote_lot_size=info.quote_lot_size,
         )
         order_type_: Any = types.order_type_from_str(order_type, program=self.program)
-        taker_fee = config.taker_fee(info.perp_type, program=self.program)
+        taker_fee = config.taker_fee(info.perp_type)
         fee_multiplier = 1 + taker_fee if is_long else 1 - taker_fee
         base_qty = util.size_to_lots(
             size, decimals=info.base_decimals, lot_size=info.base_lot_size

@@ -7,6 +7,7 @@ Side = Literal["bid", "ask"]
 OrderType = Literal[
     "limit", "ioc", "postonly", "reduceonlyioc", "reduceonlylimit", "fok"
 ]
+PerpType = Literal["future", "calloption", "putoption", "square"]
 
 
 @dataclass(frozen=True)
@@ -33,7 +34,7 @@ class MarketInfo:
     address: PublicKey
     symbol: str
     oracle_symbol: str
-    perp_type: str
+    perp_type: PerpType
     base_decimals: int
     base_lot_size: int
     quote_decimals: int
@@ -71,7 +72,8 @@ def order_type_from_str(t: OrderType, /, *, program: Program):
             raise TypeError(f"unsupported order type {t}")
 
 
-def perp_type_to_str(t: Any, /, *, program: Program) -> str:
+def perp_type_to_str(t: Any, /, *, program: Program) -> PerpType:
+    # HACK: Enum comparison is currently broken, so using `str`.
     t = str(t)
     if t == "PerpType.Future()":
         return "future"
@@ -81,4 +83,4 @@ def perp_type_to_str(t: Any, /, *, program: Program) -> str:
         return "putoption"
     if t == "PerpType.Square()":
         return "square"
-    raise LookupError(f"invalid perp type {perp_type}")
+    raise LookupError(f"invalid perp type {t}")
