@@ -6,8 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Fixed broken `Zo.place_order`
+## [0.1.1]
+
+- Fixed broken `Zo.place_order`.
 
 ## [0.1.0] - 2022-03-06
 
-- Initial release
+- Initial release.
