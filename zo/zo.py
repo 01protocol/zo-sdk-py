@@ -376,9 +376,6 @@ class Zo:
         }
 
     async def __reload_orders(self):
-        if self._zo_margin is None:
-            return
-
         ks = []
         for i in range(len(self.__markets)):
             mkt = self.__dex_markets[self.__markets_map[i]]
@@ -388,7 +385,7 @@ class Zo:
             ks, encoding="base64", commitment=Processed
         )
         res = res["result"]["value"]
-        orders = {}
+        orders = self._zo_margin and {}
         orderbook = {}
 
         for i in range(len(self.__markets)):
@@ -396,13 +393,15 @@ class Zo:
             ob = mkt._decode_orderbook_from_base64(
                 res[2 * i]["data"][0], res[2 * i + 1]["data"][0]
             )
-            os = []
-            for slab in [ob.bids, ob.asks]:
-                for o in slab:
-                    if o.control == self._zo_margin.control:
-                        os.append(o)
             orderbook[self.__markets_map[i]] = ob
-            orders[self.__markets_map[i]] = os
+
+            if self._zo_margin is not None:
+                os = []
+                for slab in [ob.bids, ob.asks]:
+                    for o in slab:
+                        if o.control == self._zo_margin.control:
+                            os.append(o)
+                orders[self.__markets_map[i]] = os
 
         self.__orderbook = orderbook
         self.__orders = orders

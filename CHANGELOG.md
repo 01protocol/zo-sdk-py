@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix `Zo.orderbook` missing when `load_margin=False`.
+
 ## [0.1.1]
 
 - Fixed broken `Zo.place_order`.
