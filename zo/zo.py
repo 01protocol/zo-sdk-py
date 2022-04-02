@@ -2,6 +2,7 @@ from typing import *
 import asyncio
 import os
 import json
+from datetime import datetime, timezone
 from anchorpy import Idl, Program, Provider, Context, Wallet
 from anchorpy.error import AccountDoesNotExistError
 from solana.publickey import PublicKey
@@ -292,6 +293,44 @@ class Zo:
             map[symbol] = symbol
             map[i] = symbol
 
+            oracle = None
+            for o in reversed(self._zo_cache.oracles):
+                if util.decode_symbol(m.oracle_symbol) == util.decode_symbol(o.symbol):
+                    oracle = o
+                    break
+            else:
+                raise IndexError(f"oracle for market {symbol} not found")
+
+            mark = self._zo_cache.marks[i]
+            twap = self._zo_cache.marks[i].twap
+
+            price_adj = 10 ** (m.asset_decimals - 6)
+            index_price = util.decode_wrapped_i80f48(oracle.price) * price_adj
+            index_twap = util.decode_wrapped_i80f48(oracle.twap) * price_adj
+            mark_price = util.decode_wrapped_i80f48(mark.price) * price_adj
+
+            if types.perp_type_to_str(m.perp_type, program=self.program) == "square":
+                index_price = index_price**2 / m.strike
+                index_twap = index_twap**2 / m.strike
+
+            twap_sample_since_intervals = (
+                datetime.fromtimestamp(
+                    twap.last_sample_start_time, tz=timezone.utc
+                ).minute
+                // 5
+            )
+            mark_twap = (
+                mark_price
+                if twap_sample_since_intervals == 0
+                else (
+                    util.decode_wrapped_i80f48(twap.cumul_avg)
+                    * price_adj
+                    / (4 * twap_sample_since_intervals)
+                )
+            )
+
+            funding_rate = min(0.05, max(-0.05, mark_twap / index_twap - 1)) * 100 / 24
+
             markets[symbol] = MarketInfo(
                 address=m.dex_market,
                 symbol=symbol,
@@ -304,6 +343,11 @@ class Zo:
                 strike=m.strike,
                 base_imf=m.base_imf,
                 liq_fee=m.liq_fee,
+                index_price=index_price,
+                index_twap=index_twap,
+                mark_price=mark_price,
+                mark_twap=mark_twap,
+                funding_rate=funding_rate,
             )
 
         self.__markets_map = map

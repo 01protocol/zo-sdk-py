@@ -42,6 +42,11 @@ class MarketInfo:
     strike: int
     base_imf: int
     liq_fee: int
+    index_price: float
+    index_twap: float
+    mark_price: float
+    mark_twap: float
+    funding_rate: float
 
 
 @dataclass(frozen=True)

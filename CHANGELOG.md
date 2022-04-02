@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Fix `Zo.orderbook` missing when `load_margin=False`.
+- Add `MarketInfo.{mark,index}_{price,twap}` and `MarketInfo.funding_rate`.
 
 ## [0.1.1]
 
