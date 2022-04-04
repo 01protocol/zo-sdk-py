@@ -11,7 +11,7 @@ packages = [{ include = "zo" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-anchorpy = "^0.7.0"
+anchorpy = "^0.8.1"
 solana = "^0.21.0"
 
 [tool.poetry.dev-dependencies]
