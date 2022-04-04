@@ -7,7 +7,7 @@ from anchorpy import Idl, Program, Provider, Context, Wallet
 from anchorpy.error import AccountDoesNotExistError
 from solana.publickey import PublicKey
 from solana.keypair import Keypair
-from solana.rpc.commitment import Processed, Finalized
+from solana.rpc.commitment import Commitment, Finalized
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TxOpts
 from solana.sysvar import SYSVAR_RENT_PUBKEY
@@ -170,7 +170,7 @@ class Zo:
             _margin=margin,
             _margin_key=margin_key,
         )
-        await zo.refresh()
+        await zo.refresh(commitment=Finalized)
         return zo
 
     @property
@@ -404,14 +404,14 @@ class Zo:
         self.__position = positions
         pass
 
-    async def __reload_dex_markets(self):
+    async def __reload_dex_markets(self, *, commitment: None | Commitment = None):
         ks = [
             m.dex_market
             for m in self._zo_state.perp_markets
             if m.dex_market != PublicKey(0)
         ]
         res: Any = await self.connection.get_multiple_accounts(
-            ks, encoding="base64", commitment=Processed
+            ks, encoding="base64", commitment=commitment
         )
         res = res["result"]["value"]
         self.__dex_markets = {
@@ -419,14 +419,14 @@ class Zo:
             for i in range(len(self.__markets))
         }
 
-    async def __reload_orders(self):
+    async def __reload_orders(self, *, commitment: None | Commitment = None):
         ks = []
         for i in range(len(self.__markets)):
             mkt = self.__dex_markets[self.__markets_map[i]]
             ks.extend((mkt.bids, mkt.asks))
 
         res: Any = await self.connection.get_multiple_accounts(
-            ks, encoding="base64", commitment=Processed
+            ks, encoding="base64", commitment=commitment
         )
         res = res["result"]["value"]
         orders = self._zo_margin and {}
@@ -450,18 +450,20 @@ class Zo:
         self.__orderbook = orderbook
         self.__orders = orders
 
-    async def __refresh_margin(self):
+    async def __refresh_margin(self, *, commitment: None | Commitment = None):
         if self._zo_margin_key is not None:
             self._zo_margin, self._zo_control = await asyncio.gather(
-                self.program.account["Margin"].fetch(self._zo_margin_key),
-                self.program.account["Control"].fetch(self._zo_margin.control),
+                self.program.account["Margin"].fetch(self._zo_margin_key, commitment),
+                self.program.account["Control"].fetch(
+                    self._zo_margin.control, commitment
+                ),
             )
 
-    async def refresh(self):
+    async def refresh(self, *, commitment: Commitment = Finalized):
         """Refresh the loaded accounts to see updates."""
         self._zo_state, self._zo_cache, _ = await asyncio.gather(
-            self.program.account["State"].fetch(self.__config.ZO_STATE_ID),
-            self.program.account["Cache"].fetch(self._zo_state.cache),
+            self.program.account["State"].fetch(self.__config.ZO_STATE_ID, commitment),
+            self.program.account["Cache"].fetch(self._zo_state.cache, commitment),
             self.__refresh_margin(),
         )
 
@@ -469,8 +471,8 @@ class Zo:
         self.__reload_markets()
         self.__reload_balances()
         self.__reload_positions()
-        await self.__reload_dex_markets()
-        await self.__reload_orders()
+        await self.__reload_dex_markets(commitment=commitment)
+        await self.__reload_orders(commitment=commitment)
 
     async def deposit(
         self,
