@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- BREAKING: Remove `MarketInfo.funding_rate` in favour of `MarketInfo.funding_{info,sample_start_time}` for new funding formula.
+
 ## [0.1.2] - 2022-04-08
 
 - Add `MarketInfo.{mark,index}_{price,twap}` and `MarketInfo.funding_rate`.

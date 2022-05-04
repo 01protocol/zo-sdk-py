@@ -2,7 +2,7 @@ from typing import *
 import asyncio
 import os
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone as tz
 from anchorpy import Idl, Program, Provider, Context, Wallet
 from anchorpy.error import AccountDoesNotExistError
 from solana.publickey import PublicKey
@@ -17,7 +17,14 @@ from spl.token.constants import TOKEN_PROGRAM_ID
 
 from . import util, types, config
 from .config import configs, Config
-from .types import Side, OrderType, CollateralInfo, MarketInfo, PositionInfo
+from .types import (
+    Side,
+    OrderType,
+    CollateralInfo,
+    FundingInfo,
+    MarketInfo,
+    PositionInfo,
+)
 from .dex import Market, Orderbook, Order
 
 T = TypeVar("T")
@@ -302,34 +309,28 @@ class Zo:
                 raise IndexError(f"oracle for market {symbol} not found")
 
             mark = self._zo_cache.marks[i]
-            twap = self._zo_cache.marks[i].twap
 
             price_adj = 10 ** (m.asset_decimals - 6)
             index_price = util.decode_wrapped_i80f48(oracle.price) * price_adj
-            index_twap = util.decode_wrapped_i80f48(oracle.twap) * price_adj
             mark_price = util.decode_wrapped_i80f48(mark.price) * price_adj
 
             if types.perp_type_to_str(m.perp_type, program=self.program) == "square":
                 index_price = index_price**2 / m.strike
-                index_twap = index_twap**2 / m.strike
 
-            twap_sample_since_intervals = (
-                datetime.fromtimestamp(
-                    twap.last_sample_start_time, tz=timezone.utc
-                ).minute
-                // 5
+            funding_sample_start = datetime.fromtimestamp(
+                mark.twap.last_sample_start_time, tz=tz.utc
             )
-            mark_twap = (
-                mark_price
-                if twap_sample_since_intervals == 0
-                else (
-                    util.decode_wrapped_i80f48(twap.cumul_avg)
-                    * price_adj
-                    / (4 * twap_sample_since_intervals)
+            cumul_avg = util.decode_wrapped_i80f48(mark.twap.cumul_avg)
+            daily_funding = cumul_avg / funding_sample_start.minute
+            funding_info = (
+                None
+                if abs(cumul_avg) == 0 or funding_sample_start.minute == 0
+                else FundingInfo(
+                    daily=daily_funding,
+                    hourly=daily_funding / 24,
+                    apr=daily_funding * 100 * 365,
                 )
             )
-
-            funding_rate = min(0.05, max(-0.05, mark_twap / index_twap - 1)) * 100 / 24
 
             markets[symbol] = MarketInfo(
                 address=m.dex_market,
@@ -344,10 +345,9 @@ class Zo:
                 base_imf=m.base_imf,
                 liq_fee=m.liq_fee,
                 index_price=index_price,
-                index_twap=index_twap,
                 mark_price=mark_price,
-                mark_twap=mark_twap,
-                funding_rate=funding_rate,
+                funding_sample_start_time=funding_sample_start,
+                funding_info=funding_info,
             )
 
         self.__markets_map = map

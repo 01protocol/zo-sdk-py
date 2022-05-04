@@ -1,5 +1,6 @@
 from typing import Literal, Any
 from dataclasses import dataclass
+from datetime import datetime
 from anchorpy import Program
 from solana.publickey import PublicKey
 
@@ -30,6 +31,13 @@ class CollateralInfo:
 
 
 @dataclass(frozen=True)
+class FundingInfo:
+    hourly: float
+    daily: float
+    apr: float
+
+
+@dataclass(frozen=True)
 class MarketInfo:
     address: PublicKey
     symbol: str
@@ -43,10 +51,9 @@ class MarketInfo:
     base_imf: int
     liq_fee: int
     index_price: float
-    index_twap: float
     mark_price: float
-    mark_twap: float
-    funding_rate: float
+    funding_sample_start_time: datetime
+    funding_info: None | FundingInfo
 
 
 @dataclass(frozen=True)
