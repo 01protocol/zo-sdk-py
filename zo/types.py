@@ -55,6 +55,16 @@ class MarketInfo:
     funding_sample_start_time: datetime
     funding_info: None | FundingInfo
 
+    @property
+    def funding_rate(self):
+        import warnings
+
+        warnings.warn(
+            "Use of deprecated `MarketInfo.funding_rate`, please use `MarketInfo.funding_info`",
+            DeprecationWarning,
+        )
+        return 0 if self.funding_info is None else self.funding_info.hourly
+
 
 @dataclass(frozen=True)
 class PositionInfo:
