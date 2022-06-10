@@ -321,16 +321,15 @@ class Zo:
                 mark.twap.last_sample_start_time, tz=tz.utc
             )
             cumul_avg = util.decode_wrapped_i80f48(mark.twap.cumul_avg)
-            daily_funding = cumul_avg / funding_sample_start.minute
-            funding_info = (
-                None
-                if abs(cumul_avg) == 0 or funding_sample_start.minute == 0
-                else FundingInfo(
+            if abs(cumul_avg) == 0 or funding_sample_start.minute == 0:
+                funding_info = None
+            else:
+                daily_funding = cumul_avg / funding_sample_start.minute
+                funding_info = FundingInfo(
                     daily=daily_funding,
                     hourly=daily_funding / 24,
                     apr=daily_funding * 100 * 365,
                 )
-            )
 
             markets[symbol] = MarketInfo(
                 address=m.dex_market,
