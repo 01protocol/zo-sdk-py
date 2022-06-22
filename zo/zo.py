@@ -575,6 +575,7 @@ class Zo:
         order_type: OrderType,
         limit: int = 10,
         client_id: int = 0,
+        max_ts: None | int = None,
     ) -> str:
         """Place an order on the orderbook.
 
@@ -593,6 +594,8 @@ class Zo:
                 be used to cancel this order through
                 cancelPerpOrderByClientId. For optimal use, make sure
                 all ids for every order is unique.
+            max_ts: If the current on-chain Unix timestamp exceeds this
+                value, then the order will not go through.
 
         Returns:
             The transaction signature.
@@ -649,7 +652,7 @@ class Zo:
                 )
             ]
 
-        return await self.program.rpc["place_perp_order"](
+        return await self.program.rpc["place_perp_order_with_max_ts"](
             is_long,
             price,
             base_qty,
@@ -657,6 +660,7 @@ class Zo:
             order_type_,
             limit,
             client_id,
+            max_ts if max_ts is not None else 2**63 - 1,
             ctx=Context(
                 accounts={
                     "state": self.__config.ZO_STATE_ID,
