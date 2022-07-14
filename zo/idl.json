@@ -1321,11 +1321,11 @@
         }
       ],
       "args": []
-    },
+    }
   ],
   "accounts": [
     {
-      "name": "cache",
+      "name": "Cache",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1375,7 +1375,7 @@
       }
     },
     {
-      "name": "control",
+      "name": "Control",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1398,7 +1398,7 @@
       }
     },
     {
-      "name": "globalState",
+      "name": "GlobalState",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1423,7 +1423,7 @@
       }
     },
     {
-      "name": "margin",
+      "name": "Margin",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1463,7 +1463,7 @@
       }
     },
     {
-      "name": "state",
+      "name": "State",
       "type": {
         "kind": "struct",
         "fields": [
