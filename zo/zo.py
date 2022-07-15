@@ -2,11 +2,13 @@ from typing import *
 import asyncio
 import os
 import json
+import inspect
 from datetime import datetime, timezone as tz
 from anchorpy import Idl, Program, Provider, Context, Wallet
 from anchorpy.error import AccountDoesNotExistError
 from solana.publickey import PublicKey
 from solana.keypair import Keypair
+from solana.transaction import TransactionInstruction, Transaction, TransactionSignature
 from solana.rpc.commitment import Commitment, Finalized
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TxOpts
@@ -30,6 +32,40 @@ from .dex import Market, Orderbook, Order
 T = TypeVar("T")
 
 
+def GenIxDispatch(cls):
+    """Decorator for use with the `Zo` class.
+
+    This decorator finds all methods ending in `_ix` on the class,
+    and adds a trivial wrapper to dispatch the instruction using `Zo.send`.
+    The `__doc__` is moved to the generated method.
+    """
+    for n, f in inspect.getmembers(cls, predicate=inspect.isfunction):
+        if n.startswith("_") or not n.endswith("_ix"):
+            continue
+
+        async def g(self, *a, **kw):
+            # If you're looking for the source, see the source
+            # for the `_ix` variant of this method.
+            return await self.send(f(*a, **kw))
+
+        name = n[:-3]
+        g.__name__ = name
+        g.__qualname__ = f.__qualname__[:-3]
+        g.__doc__ = inspect.getdoc(f)
+        g.__signature__ = inspect.signature(f).replace(
+            return_annotation=TransactionSignature
+        )
+        g.__annotations__ = inspect.get_annotations(f)  # Copies.
+        g.__annotations__["return"] = TransactionSignature
+
+        # The docs are intended for the non '_ix' variant, so modify them.
+        f.__doc__ = f"See `Zo.{name}`."
+
+        setattr(cls, name, g)
+
+    return cls
+
+
 class ZoIndexer(Generic[T]):
     def __init__(self, d: dict[str, T], m: Callable[[str | int | PublicKey], str]):
         self.d = d
@@ -48,6 +84,7 @@ class ZoIndexer(Generic[T]):
         return self.d[self.m(i)]
 
 
+@GenIxDispatch
 class Zo:
     __program: Program
     __config: Config
@@ -473,7 +510,23 @@ class Zo:
         await self.__reload_dex_markets(commitment=commitment)
         await self.__reload_orders(commitment=commitment)
 
-    async def deposit(
+    async def send(
+        self, *xs: TransactionInstruction | Transaction
+    ) -> TransactionSignature:
+        """Dispatch a set of instructions.
+
+        Args:
+            xs: The instruction or transaction to add.
+
+        Returns:
+            The transaction signature.
+        """
+        tx = Transaction()
+        for x in xs:
+            tx.add(x)
+        return await self.provider.send(tx)
+
+    def deposit_ix(
         self,
         amount: float,
         /,
@@ -481,7 +534,7 @@ class Zo:
         mint: PublicKey,
         repay_only: bool = False,
         token_account: None | PublicKey = None,
-    ) -> str:
+    ) -> TransactionInstruction:
         """Deposit collateral into the margin account.
 
         Args:
@@ -500,7 +553,7 @@ class Zo:
         decimals = self.collaterals[mint].decimals
         amount = util.big_to_small_amount(amount, decimals=decimals)
 
-        return await self.program.rpc["deposit"](
+        return self.program.instruction["deposit"](
             repay_only,
             amount,
             ctx=Context(
@@ -517,7 +570,7 @@ class Zo:
             ),
         )
 
-    async def withdraw(
+    def withdraw_ix(
         self,
         amount: float,
         /,
@@ -525,7 +578,7 @@ class Zo:
         mint: PublicKey,
         allow_borrow: bool = False,
         token_account: None | PublicKey = None,
-    ) -> str:
+    ) -> TransactionInstruction:
         """Withdraw collateral from the margin account.
 
         Args:
@@ -547,7 +600,7 @@ class Zo:
         decimals = self.collaterals[mint].decimals
         amount = util.big_to_small_amount(amount, decimals=decimals)
 
-        return await self.program.rpc["withdraw"](
+        return self.program.instruction["withdraw"](
             allow_borrow,
             amount,
             ctx=Context(
@@ -565,7 +618,7 @@ class Zo:
             ),
         )
 
-    async def place_order(
+    def place_order_ix(
         self,
         size: float,
         price: float,
@@ -576,7 +629,7 @@ class Zo:
         limit: int = 10,
         client_id: int = 0,
         max_ts: None | int = None,
-    ) -> str:
+    ) -> Transaction:
         """Place an order on the orderbook.
 
         Args:
@@ -647,12 +700,11 @@ class Zo:
                             "rent": SYSVAR_RENT_PUBKEY,
                             "system_program": SYS_PROGRAM_ID,
                         },
-                        pre_instructions=pre_ixs,
                     )
                 )
             ]
 
-        return await self.program.rpc["place_perp_order_with_max_ts"](
+        return self.program.instruction["place_perp_order_with_max_ts"](
             is_long,
             price,
             base_qty,
@@ -677,25 +729,26 @@ class Zo:
                     "market_asks": mkt.asks,
                     "dex_program": self.__config.ZO_DEX_ID,
                     "rent": SYSVAR_RENT_PUBKEY,
-                }
+                },
+                pre_instructions=pre_ixs,
             ),
         )
 
-    async def __cancel_order(
+    def __cancel_order_ix(
         self,
         *,
         symbol: str,
         side: None | Side = None,
         order_id: None | int = None,
         client_id: None | int = None,
-    ):
+    ) -> TransactionInstruction:
         mkt = self.__dex_markets[symbol]
         oo = self._get_open_orders_info(symbol)
 
         if oo is None:
             raise ValueError("open orders account is uninitialized")
 
-        return await self.program.rpc["cancel_perp_order"](
+        return self.program.instruction["cancel_perp_order"](
             order_id,
             side == "bid",
             client_id,
@@ -716,9 +769,9 @@ class Zo:
             ),
         )
 
-    async def cancel_order_by_order_id(
+    def cancel_order_by_order_id_ix(
         self, order_id: int, side: Side, *, symbol: str
-    ) -> str:
+    ) -> TransactionInstruction:
         """Cancel an order on the orderbook using the `order_id`.
 
         Args:
@@ -730,9 +783,9 @@ class Zo:
         Returns:
             The transaction signature.
         """
-        return await self.__cancel_order(symbol=symbol, order_id=order_id, side=side)
+        return self.__cancel_order_ix(symbol=symbol, order_id=order_id, side=side)
 
-    async def cancel_order_by_client_id(self, client_id: int, *, symbol: str) -> str:
+    def cancel_order_by_client_id_ix(self, client_id: int, *, symbol: str) -> TransactionInstruction:
         """Cancel an order on the orderbook using the `client_id`.
 
         Args:
@@ -743,4 +796,4 @@ class Zo:
         Returns:
             The transaction signature.
         """
-        return await self.__cancel_order(symbol=symbol, client_id=client_id)
+        return self.__cancel_order_ix(symbol=symbol, client_id=client_id)

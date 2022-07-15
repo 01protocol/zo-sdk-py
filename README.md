@@ -45,4 +45,12 @@ await zo.refresh()
 print(zo.balance["BTC"])
 print(zo.position["BTC-PERP"])
 print(zo.orders["BTC-PERP"])
+
+# Dispatch multiple instructions in a single transaction,
+# using the `_ix` variant.
+await zo.send(
+    zo.cancel_order_by_client_id_ix(1, symbol="SOL-PERP"),
+    zo.place_order_ix(1., 100., 'bid',
+        symbol="SOL-PERP", order_type="limit", client_id=1),
+)
 ```
