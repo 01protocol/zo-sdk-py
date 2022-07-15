@@ -30,8 +30,9 @@ def div_to_float(a: int, b: int) -> float:
 def big_to_small_amount(n: int | float, /, *, decimals: int) -> int:
     shift = 10 ** abs(decimals)
     if decimals >= 0:
-        integral = int(n) * shift
-        fractional = int((n % 1) * shift)
+        fractional, integral = math.modf(n)
+        integral = int(integral) * shift
+        fractional = int(fractional * shift)
         return integral + fractional
     else:
         return int(n) // shift

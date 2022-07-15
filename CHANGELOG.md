@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Add `max_ts` parameter to `Zo.place_order`.
+- Add `Zo.liquidate_spot`.
 
 ## [0.1.3] - 2022-06-10
 

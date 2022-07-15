@@ -744,3 +744,38 @@ class Zo:
             The transaction signature.
         """
         return await self.__cancel_order(symbol=symbol, client_id=client_id)
+
+    async def liquidate_spot(
+        self,
+        *,
+        authority: PublicKey,
+        asset_transfer_amount: int | float,
+        asset_mint: PublicKey,
+        quote_mint: PublicKey,
+    ) -> str:
+        amount = util.big_to_small_amount(
+            asset_transfer_amount, decimals=self.collaterals[asset_mint].decimals
+        )
+        liqee_margin_key, _ = util.margin_pda(
+            owner=authority,
+            state=self.__config.ZO_STATE_ID,
+            program_id=self.__config.ZO_PROGRAM_ID,
+        )
+        liqee_margin = await self.program.account["Margin"].fetch(liqee_margin_key)
+
+        return await self.program.rpc["liquidate_spot_position"](
+            amount,
+            ctx=Context(
+                accounts={
+                    "state": self.__config.ZO_STATE_ID,
+                    "cache": self._zo_state.cache,
+                    "liqor": self.wallet.public_key,
+                    "liqor_margin": self._zo_margin_key,
+                    "liqor_control": self._zo_margin.control,
+                    "liqee_margin": liqee_margin_key,
+                    "liqee_control": liqee_margin.control,
+                    "asset_mint": asset_mint,
+                    "quote_mint": quote_mint,
+                }
+            ),
+        )
