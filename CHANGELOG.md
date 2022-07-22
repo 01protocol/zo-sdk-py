@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `max_ts` parameter to `Zo.place_order`.
 - Add `Zo.send` method to dispatch custom instructions.
 - Add `_ix` variants for `Zo` methods.
+- Omit `LUNA-PERP` market.
 
 ## [0.1.3] - 2022-06-10
 

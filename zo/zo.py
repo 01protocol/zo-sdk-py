@@ -317,6 +317,10 @@ class Zo:
                 break
 
             symbol = util.decode_symbol(m.symbol)
+
+            if symbol == "LUNA-PERP":
+                continue
+
             map[symbol] = symbol
             map[i] = symbol
             map[m.dex_market] = symbol
@@ -428,21 +432,22 @@ class Zo:
         ks = [
             m.dex_market
             for m in self._zo_state.perp_markets
-            if m.dex_market != PublicKey(0)
+            if m.dex_market in self.__markets_map
         ]
         res: Any = await self.connection.get_multiple_accounts(
             ks, encoding="base64", commitment=commitment
         )
         res = res["result"]["value"]
         self.__dex_markets = {
-            self.__markets_map[i]: Market.from_base64(res[i]["data"][0])
-            for i in range(len(self.__markets))
+            self.__markets_map[ks[i]]: Market.from_base64(res[i]["data"][0])
+            for i in range(len(ks))
         }
 
     async def __reload_orders(self, *, commitment: None | Commitment = None):
+        ss = []
         ks = []
-        for i in range(len(self.__markets)):
-            mkt = self.__dex_markets[self.__markets_map[i]]
+        for s, mkt in self.__dex_markets.items():
+            ss.append(s)
             ks.extend((mkt.bids, mkt.asks))
 
         res: Any = await self.connection.get_multiple_accounts(
@@ -452,12 +457,12 @@ class Zo:
         orders = self._zo_margin and {}
         orderbook = {}
 
-        for i in range(len(self.__markets)):
-            mkt = self.__dex_markets[self.__markets_map[i]]
+        for i, s in enumerate(ss):
+            mkt = self.__dex_markets[s]
             ob = mkt._decode_orderbook_from_base64(
                 res[2 * i]["data"][0], res[2 * i + 1]["data"][0]
             )
-            orderbook[self.__markets_map[i]] = ob
+            orderbook[s] = ob
 
             if self._zo_margin is not None:
                 os = []
@@ -465,7 +470,7 @@ class Zo:
                     for o in slab:
                         if o.control == self._zo_margin.control:
                             os.append(o)
-                orders[self.__markets_map[i]] = os
+                orders[s] = os
 
         self.__orderbook = orderbook
         self.__orders = orders
@@ -769,7 +774,9 @@ class Zo:
         """
         return self.__cancel_order_ix(symbol=symbol, order_id=order_id, side=side)
 
-    def cancel_order_by_client_id_ix(self, client_id: int, *, symbol: str) -> TransactionInstruction:
+    def cancel_order_by_client_id_ix(
+        self, client_id: int, *, symbol: str
+    ) -> TransactionInstruction:
         """Cancel an order on the orderbook using the `client_id`.
 
         Args:
