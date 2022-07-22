@@ -98,8 +98,8 @@ class Zo:
     __dex_markets: dict[str, Market]
     __orders: dict[str, list[Order]]
 
-    __markets_map: dict[str | int, str]
-    __collaterals_map: dict[str | int, str]
+    __markets_map: dict[str | int | PublicKey, str]
+    __collaterals_map: dict[str | int | PublicKey, str]
 
     _zo_state: Any
     _zo_state_signer: PublicKey
@@ -233,53 +233,35 @@ class Zo:
     def wallet(self) -> Wallet:
         return self.provider.wallet
 
-    def _collaterals_map(self, k: str | int | PublicKey) -> str:
-        if isinstance(k, PublicKey):
-            for i, c in enumerate(self._zo_state.collaterals):
-                if c.mint == k:
-                    return self.__collaterals_map[i]
-            raise ValueError("")
-        else:
-            return self.__collaterals_map[k]
-
-    def _markets_map(self, k: str | int | PublicKey) -> str:
-        if isinstance(k, PublicKey):
-            for i, m in enumerate(self._zo_state.perp_markets):
-                if m.dex_market == k:
-                    return self.__markets_map[i]
-            raise ValueError("")
-        else:
-            return self.__markets_map[k]
-
     @property
     def collaterals(self):
         """List of collaterals and their metadata."""
-        return ZoIndexer(self.__collaterals, lambda k: self._collaterals_map(k))
+        return ZoIndexer(self.__collaterals, lambda k: self.__collaterals_map[k])
 
     @property
     def markets(self):
         """List of collaterals and markets metadata."""
-        return ZoIndexer(self.__markets, lambda k: self._markets_map(k))
+        return ZoIndexer(self.__markets, lambda k: self.__markets_map[k])
 
     @property
     def orderbook(self):
         """Current state of the orderbook."""
-        return ZoIndexer(self.__orderbook, lambda k: self._markets_map(k))
+        return ZoIndexer(self.__orderbook, lambda k: self.__markets_map[k])
 
     @property
     def balance(self):
         """Current account balance."""
-        return ZoIndexer(self.__balance, lambda k: self._collaterals_map(k))
+        return ZoIndexer(self.__balance, lambda k: self.__collaterals_map[k])
 
     @property
     def position(self):
         """Current position."""
-        return ZoIndexer(self.__position, lambda k: self._markets_map(k))
+        return ZoIndexer(self.__position, lambda k: self.__markets_map[k])
 
     @property
     def orders(self):
         """Currently active orders."""
-        return ZoIndexer(self.__orders, lambda k: self._markets_map(k))
+        return ZoIndexer(self.__orders, lambda k: self.__markets_map[k])
 
     def _get_open_orders_info(self, key: int | str, /):
         if isinstance(key, str):
@@ -303,6 +285,7 @@ class Zo:
             symbol = util.decode_symbol(c.oracle_symbol)
             map[symbol] = symbol
             map[i] = symbol
+            map[c.mint] = symbol
 
             collaterals[symbol] = CollateralInfo(
                 mint=c.mint,
@@ -336,6 +319,7 @@ class Zo:
             symbol = util.decode_symbol(m.symbol)
             map[symbol] = symbol
             map[i] = symbol
+            map[m.dex_market] = symbol
 
             oracle = None
             for o in reversed(self._zo_cache.oracles):
