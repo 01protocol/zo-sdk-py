@@ -93,7 +93,7 @@ class Zo:
     __collaterals: dict[str, CollateralInfo]
     __orderbook: dict[str, Orderbook]
     __balance: dict[str, float]
-    __position: dict[str, float]
+    __position: dict[str, PositionInfo]
 
     __dex_markets: dict[str, Market]
     __orders: dict[str, list[Order]]
@@ -788,3 +788,17 @@ class Zo:
             The transaction signature.
         """
         return self.__cancel_order_ix(symbol=symbol, client_id=client_id)
+
+    def close_position_ix(self, symbol: str, /, *, max_ts: int | None = None):
+        pos = self.position[symbol]
+        side = "ask" if pos.side == "long" else "bid"
+        price = 0 if side == "ask" else 2**63 - 1
+
+        return self.place_order_ix(
+            pos.size,
+            price,
+            side,
+            symbol=symbol,
+            order_type="reduceonlyioc",
+            max_ts=max_ts,
+        )
