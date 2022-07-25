@@ -443,7 +443,8 @@ class Zo:
             for i in range(len(ks))
         }
 
-    async def __reload_orders(self, *, commitment: None | Commitment = None):
+    async def refresh_orders(self, *, commitment: None | Commitment = None):
+        """Refresh only the orderbook and orders."""
         ss = []
         ks = []
         for s, mkt in self.__dex_markets.items():
@@ -497,7 +498,7 @@ class Zo:
         self.__reload_balances()
         self.__reload_positions()
         await self.__reload_dex_markets(commitment=commitment)
-        await self.__reload_orders(commitment=commitment)
+        await self.refresh_orders(commitment=commitment)
 
     async def send(
         self, *xs: TransactionInstruction | Transaction

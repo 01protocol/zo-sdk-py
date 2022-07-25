@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `Zo.send` method to dispatch custom instructions.
 - Add `_ix` variants for `Zo` methods.
 - Add `Zo.close_position`.
+- Add `Zo.refresh_orders`.
 - Omit `LUNA-PERP` market.
 
 ## [0.1.3] - 2022-06-10
