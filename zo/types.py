@@ -69,10 +69,20 @@ class MarketInfo:
 @dataclass(frozen=True)
 class PositionInfo:
     size: float
-    value: float
+    entry_value: float
     realized_pnl: float
     funding_index: float
     side: Literal["long", "short"]
+
+    @property
+    def value(self):
+        import warnings
+
+        warnings.warn(
+            "Use of deprecated `PositionInfo.value`, please use `PositionInfo.entry_value`",
+            DeprecationWarning,
+        )
+        return self.entry_value
 
 
 def order_type_from_str(t: OrderType, /, *, program: Program):

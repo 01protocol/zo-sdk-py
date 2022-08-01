@@ -409,7 +409,7 @@ class Zo:
                     size=util.small_to_big_amount(
                         abs(oo.pos_size), decimals=m.base_decimals
                     ),
-                    value=util.small_to_big_amount(
+                    entry_value=util.small_to_big_amount(
                         abs(oo.native_pc_total), decimals=m.quote_decimals
                     ),
                     realized_pnl=util.small_to_big_amount(
@@ -422,7 +422,7 @@ class Zo:
                 )
             else:
                 positions[s] = PositionInfo(
-                    size=0, value=0, realized_pnl=0, funding_index=1, side="long"
+                    size=0, entry_value=0, realized_pnl=0, funding_index=1, side="long"
                 )
 
         self.__position = positions

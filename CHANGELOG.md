@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `Zo.close_position`.
 - Add `Zo.refresh_orders`.
 - Omit `LUNA-PERP` market.
+- DEPRECATE: Deprecate `PositionInfo.value` in favour of `PositionInfo.entry_value`.
 
 ## [0.1.3] - 2022-06-10
 
