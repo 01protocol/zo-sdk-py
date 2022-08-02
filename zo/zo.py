@@ -39,11 +39,13 @@ def GenIxDispatch(cls):
     and adds a trivial wrapper to dispatch the instruction using `Zo.send`.
     The `__doc__` is moved to the generated method.
     """
+
     def gen(f):
         async def g(self, *a, **kw):
             # If you're looking for the source, see the source
             # for the `_ix` variant of this method.
             return await self.send(f(self, *a, **kw))
+
         return g
 
     for n, f in inspect.getmembers(cls, predicate=inspect.isfunction):
@@ -814,4 +816,39 @@ class Zo:
             symbol=symbol,
             order_type="reduceonlyioc",
             max_ts=max_ts,
+        )
+
+    def cancel_all_orders_ix(self, symbol: str, /, *, limit: int = 128):
+        """Cancel all orders.
+
+        Args:
+            symbol: The market symbol, e.g. "BTC-PERP".
+            limit: Maximum number of orders to cancel.
+
+        Returns:
+            The transaction signature.
+        """
+        info = self.markets[symbol]
+        mkt = self.__dex_markets[symbol]
+        oo = self._get_open_orders_info(symbol).key
+
+        return self.program.instruction["cancel_all_perp_orders"](
+            limit,
+            ctx=Context(
+                accounts={
+                    "authority": self.wallet.public_key,
+                    "state": self.__config.ZO_STATE_ID,
+                    "cache": self._zo_state.cache,
+                    "state_signer": self._zo_state_signer,
+                    "margin": self._zo_margin_key,
+                    "control": self._zo_margin.control,
+                    "oo": oo,
+                    "dex_market": info.address,
+                    "req_q": mkt.req_q,
+                    "event_q": mkt.event_q,
+                    "market_bids": mkt.bids,
+                    "market_asks": mkt.asks,
+                    "dex_program": self.__config.ZO_DEX_ID,
+                }
+            ),
         )
