@@ -39,16 +39,19 @@ def GenIxDispatch(cls):
     and adds a trivial wrapper to dispatch the instruction using `Zo.send`.
     The `__doc__` is moved to the generated method.
     """
+    def gen(f):
+        async def g(self, *a, **kw):
+            # If you're looking for the source, see the source
+            # for the `_ix` variant of this method.
+            return await self.send(f(self, *a, **kw))
+        return g
+
     for n, f in inspect.getmembers(cls, predicate=inspect.isfunction):
         if n.startswith("_") or not n.endswith("_ix"):
             continue
 
-        async def g(self, *a, **kw):
-            # If you're looking for the source, see the source
-            # for the `_ix` variant of this method.
-            return await self.send(f(*a, **kw))
-
         name = n[:-3]
+        g = gen(f)
         g.__name__ = name
         g.__qualname__ = f.__qualname__[:-3]
         g.__doc__ = inspect.getdoc(f)
