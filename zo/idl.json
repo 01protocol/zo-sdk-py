@@ -225,6 +225,11 @@
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "heimdall",
+          "isMut": true,
+          "isSigner": false
         }
       ],
       "args": [

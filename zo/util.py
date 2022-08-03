@@ -116,6 +116,10 @@ def state_signer_pda(
     )
 
 
+def heimdall_pda(*, program_id: PublicKey) -> PublicKey:
+    return PublicKey.find_program_address([b"heimdallv1"], program_id)[0]
+
+
 async def create_margin(
     *, program: Program, state: PublicKey, key: PublicKey, nonce: int
 ) -> str:

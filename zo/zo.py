@@ -108,6 +108,7 @@ class Zo:
 
     _zo_state: Any
     _zo_state_signer: PublicKey
+    _zo_heimdall_key: PublicKey
     _zo_cache: Any
     _zo_margin: Any
     _zo_margin_key: None | PublicKey
@@ -122,6 +123,7 @@ class Zo:
         _state_signer,
         _margin,
         _margin_key,
+        _heimdall_key,
     ):
         self.__program = _program
         self.__config = _config
@@ -129,6 +131,7 @@ class Zo:
         self._zo_state_signer = _state_signer
         self._zo_margin = _margin
         self._zo_margin_key = _margin_key
+        self._zo_heimdall_key = _heimdall_key
 
     @classmethod
     async def new(
@@ -188,6 +191,8 @@ class Zo:
                 f"Invalid state key ({config.ZO_STATE_ID}) for program id ({config.ZO_PROGRAM_ID})"
             )
 
+        heimdall_key = util.heimdall_pda(program_id=config.ZO_PROGRAM_ID)
+
         margin = None
         margin_key = None
 
@@ -218,6 +223,7 @@ class Zo:
             _state_signer=state_signer,
             _margin=margin,
             _margin_key=margin_key,
+            _heimdall_key=heimdall_key,
         )
         await zo.refresh(commitment=Finalized)
         return zo
@@ -609,6 +615,7 @@ class Zo:
                     "token_account": token_account,
                     "vault": self.collaterals[mint].vault,
                     "token_program": TOKEN_PROGRAM_ID,
+                    "heimdall": self._zo_heimdall_key,
                 }
             ),
         )
