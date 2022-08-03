@@ -9,7 +9,7 @@ from anchorpy.error import AccountDoesNotExistError
 from solana.publickey import PublicKey
 from solana.keypair import Keypair
 from solana.transaction import TransactionInstruction, Transaction, TransactionSignature
-from solana.rpc.commitment import Commitment, Finalized
+from solana.rpc.commitment import Commitment, Confirmed
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TxOpts
 from solana.sysvar import SYSVAR_RENT_PUBKEY
@@ -144,7 +144,7 @@ class Zo:
         create_margin: bool = True,
         tx_opts: TxOpts = TxOpts(
             max_retries=None,
-            preflight_commitment=Finalized,
+            preflight_commitment=Confirmed,
             skip_confirmation=False,
             skip_preflight=False,
         ),
@@ -225,7 +225,7 @@ class Zo:
             _margin_key=margin_key,
             _heimdall_key=heimdall_key,
         )
-        await zo.refresh(commitment=Finalized)
+        await zo.refresh(commitment=Confirmed)
         return zo
 
     @property
@@ -496,7 +496,7 @@ class Zo:
                 ),
             )
 
-    async def refresh(self, *, commitment: Commitment = Finalized):
+    async def refresh(self, *, commitment: Commitment = Confirmed):
         """Refresh the loaded accounts to see updates."""
         self._zo_state, self._zo_cache, _ = await asyncio.gather(
             self.program.account["State"].fetch(self.__config.ZO_STATE_ID, commitment),
