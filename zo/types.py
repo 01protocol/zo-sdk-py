@@ -55,16 +55,6 @@ class MarketInfo:
     funding_sample_start_time: datetime
     funding_info: None | FundingInfo
 
-    @property
-    def funding_rate(self):
-        import warnings
-
-        warnings.warn(
-            "Use of deprecated `MarketInfo.funding_rate`, please use `MarketInfo.funding_info`",
-            DeprecationWarning,
-        )
-        return 0 if self.funding_info is None else self.funding_info.hourly
-
 
 @dataclass(frozen=True)
 class PositionInfo:
@@ -73,16 +63,6 @@ class PositionInfo:
     realized_pnl: float
     funding_index: float
     side: Literal["long", "short"]
-
-    @property
-    def value(self):
-        import warnings
-
-        warnings.warn(
-            "Use of deprecated `PositionInfo.value`, please use `PositionInfo.entry_value`",
-            DeprecationWarning,
-        )
-        return self.entry_value
 
 
 def order_type_from_str(t: OrderType, /, *, program: Program):
