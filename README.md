@@ -29,8 +29,8 @@ print(zo.collaterals["BTC"])
 print(zo.markets["BTC-PERP"])
 
 # Deposit and withdraw collateral.
-await zo.deposit(1, mint=zo.collaterals["SOL"].mint)
-await zo.withdraw(1, mint=zo.collaterals["SOL"].mint)
+await zo.deposit(1, "SOL")
+await zo.withdraw(1, "SOL")
 
 # Place and cancel orders.
 await zo.place_order(1., 100., 'bid',

@@ -530,9 +530,9 @@ class Zo:
     def deposit_ix(
         self,
         amount: float,
+        symbol: str,
         /,
         *,
-        mint: PublicKey,
         repay_only: bool = False,
         token_account: None | PublicKey = None,
     ) -> TransactionInstruction:
@@ -540,7 +540,7 @@ class Zo:
 
         Args:
             amount: The amount to deposit, in big units (e.g.: 1.5 SOL, 0.5 BTC).
-            mint: Mint of the collateral being deposited.
+            symbol: Symbol of the collateral being deposited.
             repay_only: If true, will only deposit up to the amount borrowed.
             token_account: The token account to deposit from, defaulting to
                 the associated token account.
@@ -548,11 +548,12 @@ class Zo:
         Returns:
             The transaction signature.
         """
+        info = self.collaterals[symbol]
+        mint = info.mint
+        amount = util.big_to_small_amount(amount, decimals=info.decimals)
+
         if token_account is None:
             token_account = get_associated_token_address(self.wallet.public_key, mint)
-
-        decimals = self.collaterals[mint].decimals
-        amount = util.big_to_small_amount(amount, decimals=decimals)
 
         return self.program.instruction["deposit"](
             repay_only,
@@ -565,7 +566,7 @@ class Zo:
                     "authority": self.wallet.public_key,
                     "margin": self._zo_margin_key,
                     "token_account": token_account,
-                    "vault": self.collaterals[mint].vault,
+                    "vault": self.collaterals[symbol].vault,
                     "token_program": TOKEN_PROGRAM_ID,
                 }
             ),
@@ -574,9 +575,9 @@ class Zo:
     def withdraw_ix(
         self,
         amount: float,
+        symbol: str,
         /,
         *,
-        mint: PublicKey,
         allow_borrow: bool = False,
         token_account: None | PublicKey = None,
     ) -> TransactionInstruction:
@@ -594,12 +595,12 @@ class Zo:
         Returns:
             The transaction signature.
         """
+        info = self.collaterals[symbol]
+        mint = info.mint
+        amount = util.big_to_small_amount(amount, decimals=info.decimals)
 
         if token_account is None:
             token_account = get_associated_token_address(self.wallet.public_key, mint)
-
-        decimals = self.collaterals[mint].decimals
-        amount = util.big_to_small_amount(amount, decimals=decimals)
 
         return self.program.instruction["withdraw"](
             allow_borrow,
@@ -613,7 +614,7 @@ class Zo:
                     "margin": self._zo_margin_key,
                     "control": self._zo_margin.control,
                     "token_account": token_account,
-                    "vault": self.collaterals[mint].vault,
+                    "vault": self.collaterals[symbol].vault,
                     "token_program": TOKEN_PROGRAM_ID,
                     "heimdall": self._zo_heimdall_key,
                 }
