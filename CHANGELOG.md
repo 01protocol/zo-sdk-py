@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2022-08-07
+
 - Add `Zo.cancel_all_orders{,_ix}`.
 - BREAKING: Add heimdall to `Zo.withdraw` accounts list.
 - BREAKING: Change default commitment from `confirmed` to `finalized`.
