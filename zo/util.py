@@ -18,7 +18,7 @@ def decode_symbol(s) -> str:
 
 
 def decode_wrapped_i80f48(n) -> float:
-    return n.data / (2**48)
+    return n.data / (2 ** 48)
 
 
 def div_to_float(a: int, b: int) -> float:
@@ -38,7 +38,7 @@ def big_to_small_amount(n: int | float, /, *, decimals: int) -> int:
 
 
 def small_to_big_amount(n: int | float, /, *, decimals: int):
-    return n / 10**decimals
+    return n / 10 ** decimals
 
 
 def price_to_lots(
@@ -72,26 +72,18 @@ def lots_to_price(
 
 
 def size_to_lots(n: float, /, *, decimals: int, lot_size: int) -> int:
-    return round(n * 10**decimals) // lot_size
+    return round(n * 10 ** decimals) // lot_size
 
 
 def lots_to_size(n: int, /, *, decimals: int, lot_size: int) -> float:
-    return div_to_float(n * lot_size, 10**decimals)
+    return div_to_float(n * lot_size, 10 ** decimals)
 
 
 def margin_pda(
-    *,
-    owner: PublicKey,
-    state: PublicKey,
-    program_id: PublicKey,
+    *, owner: PublicKey, state: PublicKey, program_id: PublicKey,
 ) -> Tuple[PublicKey, int]:
     return PublicKey.find_program_address(
-        [
-            owner.__bytes__(),
-            state.__bytes__(),
-            bytes("marginv1", "utf-8"),
-        ],
-        program_id,
+        [owner.__bytes__(), state.__bytes__(), bytes("marginv1", "utf-8"),], program_id,
     )
 
 
@@ -104,16 +96,9 @@ def open_orders_pda(
 
 
 def state_signer_pda(
-    *,
-    state: PublicKey,
-    program_id: PublicKey,
+    *, state: PublicKey, program_id: PublicKey,
 ) -> Tuple[PublicKey, int]:
-    return PublicKey.find_program_address(
-        [
-            state.__bytes__(),
-        ],
-        program_id,
-    )
+    return PublicKey.find_program_address([state.__bytes__(),], program_id,)
 
 
 def heimdall_pda(*, program_id: PublicKey) -> PublicKey:

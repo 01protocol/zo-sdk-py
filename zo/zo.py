@@ -148,6 +148,7 @@ class Zo:
             skip_confirmation=False,
             skip_preflight=False,
         ),
+        margin_key: Pubkey | None = None,
     ):
         """Create a new client instance.
 
@@ -194,14 +195,15 @@ class Zo:
         heimdall_key = util.heimdall_pda(program_id=config.ZO_PROGRAM_ID)
 
         margin = None
-        margin_key = None
+        nonce = None
 
         if load_margin:
-            margin_key, nonce = util.margin_pda(
-                owner=wallet.public_key,
-                state=config.ZO_STATE_ID,
-                program_id=config.ZO_PROGRAM_ID,
-            )
+            if margin_key is None:
+                margin_key, nonce = util.margin_pda(
+                    owner=wallet.public_key,
+                    state=config.ZO_STATE_ID,
+                    program_id=config.ZO_PROGRAM_ID,
+                )
             try:
                 margin = await program.account["Margin"].fetch(margin_key)
             except AccountDoesNotExistError as e:
@@ -351,7 +353,7 @@ class Zo:
             mark_price = util.decode_wrapped_i80f48(mark.price) * price_adj
 
             if types.perp_type_to_str(m.perp_type, program=self.program) == "square":
-                index_price = index_price**2 / m.strike
+                index_price = index_price ** 2 / m.strike
 
             funding_sample_start = datetime.fromtimestamp(
                 mark.twap.last_sample_start_time, tz=tz.utc
@@ -715,7 +717,7 @@ class Zo:
             order_type_,
             limit,
             client_id,
-            max_ts if max_ts is not None else 2**63 - 1,
+            max_ts if max_ts is not None else 2 ** 63 - 1,
             ctx=Context(
                 accounts={
                     "state": self.__config.ZO_STATE_ID,
@@ -815,7 +817,7 @@ class Zo:
         """
         pos = self.position[symbol]
         side = "ask" if pos.side == "long" else "bid"
-        price = 0 if side == "ask" else 2**63 - 1
+        price = 0 if side == "ask" else 2 ** 63 - 1
 
         return self.place_order_ix(
             pos.size,
