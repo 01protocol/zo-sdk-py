@@ -148,6 +148,7 @@ class Zo:
             skip_confirmation=False,
             skip_preflight=False,
         ),
+        margin_key: Pubkey | None = None,
     ):
         """Create a new client instance.
 
@@ -194,14 +195,15 @@ class Zo:
         heimdall_key = util.heimdall_pda(program_id=config.ZO_PROGRAM_ID)
 
         margin = None
-        margin_key = None
-
+        nonce = None
+        
         if load_margin:
-            margin_key, nonce = util.margin_pda(
-                owner=wallet.public_key,
-                state=config.ZO_STATE_ID,
-                program_id=config.ZO_PROGRAM_ID,
-            )
+            if margin_key is None:
+                margin_key, nonce = util.margin_pda(
+                    owner=wallet.public_key,
+                    state=config.ZO_STATE_ID,
+                    program_id=config.ZO_PROGRAM_ID,
+                )
             try:
                 margin = await program.account["Margin"].fetch(margin_key)
             except AccountDoesNotExistError as e:
